@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RailGuard AI - Autonomous Railway Inspection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E55A2B;
+            --secondary: #004E89;
+            --accent: #00C9A7;
+            --dark: #0A0E17;
+            --darker: #050810;
+            --light: #F0F4F8;
+            --gray: #8B9CAD;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--light);
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 78, 137, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(0, 201, 167, 0.05) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Animated Train Demo */
+        .train-demo {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 300px;
+            margin: 3rem auto;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .track {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: repeating-linear-gradient(
+                90deg,
+                #3a3a3a 0px,
+                #3a3a3a 40px,
+                #2a2a2a 40px,
+                #2a2a2a 80px
+            );
+        }
+
+        .track::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #555;
+            transform: translateY(-50%);
+        }
+
+        .train {
+            position: absolute;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 80px;
+            animation: trainFloat 3s ease-in-out infinite;
+        }
+
+        .train-body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 10px 10px 5px 5px;
+            position: relative;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .train-window {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(135deg, #00C9A7 0%, #004E89 100%);
+            border-radius: 5px;
+            animation: windowGlow 2s ease-in-out infinite alternate;
+        }
+
+        .train-window::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: statusBlink 1s ease-in-out infinite;
+        }
+
+        .sensor-array {
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .sensor {
+            width: 30px;
+            height: 20px;
+            background: linear-gradient(180deg, #333 0%, #111 100%);
+            border-radius: 0 0 10px 10px;
+            position: relative;
+        }
+
+        .sensor::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 15px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: sensorPulse 1.5s ease-in-out infinite;
+        }
+
+        /* Scanning Waves */
+        .scan-wave {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 150px;
+            pointer-events: none;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: waveExpand 2s ease-out infinite;
+        }
+
+        .wave:nth-child(1) { animation-delay: 0s; }
+        .wave:nth-child(2) { animation-delay: 0.5s; }
+        .wave:nth-child(3) { animation-delay: 1s; }
+        .wave:nth-child(4) { animation-delay: 1.5s; }
+
+        /* Anomaly Detection */
+        .anomaly {
+            position: absolute;
+            bottom: 55px;
+            right: 100px;
+            width: 20px;
+            height: 15px;
+            background: var(--primary);
+            border-radius: 3px;
+            animation: anomalyPulse 0.5s ease-in-out infinite alternate;
+        }
+
+        .anomaly-label {
+            position: absolute;
+            bottom: 80px;
+            right: 60px;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            animation: labelPop 2s ease-in-out infinite;
+        }
+
+        .data-stream {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: var(--accent);
+            opacity: 0.8;
+        }
+
+        .data-line {
+            animation: dataFlicker 0.1s ease-in-out infinite;
+        }
+
+        @keyframes trainFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes windowGlow {
+            from { box-shadow: 0 0 10px rgba(0, 201, 167, 0.3); }
+            to { box-shadow: 0 0 25px rgba(0, 201, 167, 0.6); }
+        }
+
+        @keyframes statusBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes sensorPulse {
+            0%, 100% { 
+                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+                opacity: 1;
+            }
+            50% { 
+                box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes waveExpand {
+            0% {
+                width: 50px;
+                height: 20px;
+                opacity: 1;
+            }
+            100% {
+                width: 400px;
+                height: 160px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes anomalyPulse {
+            from { box-shadow: 0 0 5px var(--primary); }
+            to { box-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
+        }
+
+        @keyframes labelPop {
+            0%, 90%, 100% { opacity: 0; transform: translateY(10px); }
+            20%, 80% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes dataFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 5%;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: var(--darker);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .problem-card {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        .problem-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .alert-banner h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Solution Section */
+        .solution {
+            background: var(--dark);
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        .tech-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tech-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Process Flow */
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 4rem auto;
+            max-width: 1000px;
+        }
+
+        .process-step {
+            background: var(--darker);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 150px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .process-step .icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .process-step p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .process-arrow {
+            color: var(--accent);
+            font-size: 1.5rem;
+        }
+
+        /* Advantages Section */
+        .advantages {
+            background: var(--darker);
+        }
+
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            color: var(--gray);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .negative {
+            color: var(--primary);
+        }
+
+        /* Market Section */
+        .market {
+            background: var(--dark);
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto 4rem;
+        }
+
+        .market-stat {
+            background: linear-gradient(135deg, rgba(0, 78, 137, 0.2) 0%, rgba(0, 78, 137, 0.05) 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(0, 78, 137, 0.3);
+        }
+
+        .market-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .market-stat .label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .validation-box {
+            background: linear-gradient(135deg, rgba(0, 201, 167, 0.1) 0%, rgba(0, 201, 167, 0.05) 100%);
+            border: 1px solid rgba(0, 201, 167, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .validation-box h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .validation-box p {
+            color: var(--gray);
+        }
+
+        /* Business Model */
+        .business {
+            background: var(--darker);
+        }
+
+        .revenue-streams {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .revenue-card {
+            background: var(--dark);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .revenue-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .revenue-card ul {
+            list-style: none;
+        }
+
+        .revenue-card li {
+            padding: 0.5rem 0;
+            color: var(--gray);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .revenue-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%);
+            text-align: center;
+            padding: 6rem 5%;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .stats-bar {
+                gap: 2rem;
+            }
+
+            .process-flow {
+                flex-direction: column;
+            }
+
+            .process-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">⚡ RailGuard AI</div>
+        <ul class="nav-links">
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#market">Market</a></li>
+            <li><a href="#technology">Technology</a></li>
+        </ul>
+        <a href="#contact" class="cta-btn">Learn More</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <h1>Preventing Railway Disasters with <span>Autonomous AI Vision</span></h1>
+            <p class="hero-subtitle">
+                Every train becomes an inspector. Our multi-sensor platform detects track anomalies in real-time, 
+                preventing accidents before they happen.
+            </p>
+
+            <!-- Animated Train Demo -->
+            <div class="train-demo">
+                <div class="data-stream">
+                    <div class="data-line">> SCANNING: KM 142.3</div>
+                    <div class="data-line">> LIDAR: ACTIVE</div>
+                    <div class="data-line">> THERMAL: NOMINAL</div>
+                    <div class="data-line">> AI MODEL: v2.4.1</div>
+                </div>
+                
+                <div class="track"></div>
+                
+                <div class="train">
+                    <div class="train-body">
+                        <div class="train-window"></div>
+                        <div class="sensor-array">
+                            <div class="sensor" title="4K Camera Array"></div>
+                            <div class="sensor" title="LiDAR Scanner"></div>
+                            <div class="sensor" title="Thermal Camera"></div>
+                            <div class="sensor" title="Radar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scan-wave">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+
+                <div class="anomaly"></div>
+                <div class="anomaly-label">⚠️ ANOMALY DETECTED</div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-number">46</div>
+                    <div class="stat-label">Lives Lost in Adamuz</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">15,000+</div>
+                    <div class="stat-label">KM of Spanish Railways</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">€2.4B</div>
+                    <div class="stat-label">Annual EU Rail Maintenance</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem" id="problem">
+        <div class="section-header">
+            <h2>The Critical Problem</h2>
+            <p>Railway infrastructure inspection is outdated. Manual methods are expensive, slow, and leave dangerous gaps in coverage.</p>
+        </div>
+
+        <div class="alert-banner">
+            <h4>⚠️ The Adamuz Disaster - January 18, 2026</h4>
+            <p>A high-speed train derailed near Córdoba, Spain, killing 46 people and injuring 292. Preliminary investigations suggest track infrastructure failure as a contributing factor. This tragedy could have been prevented with continuous automated monitoring.</p>
+        </div>
+
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-icon">🚶</div>
+                <h3>Manual Inspections</h3>
+                <p>Inspectors walking tracks at night, covering only small portions of the network. Human fatigue and limited visibility create dangerous blind spots.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">💰</div>
+                <h3>Prohibitive Costs</h3>
+                <p>Specialized inspection trains cost millions and require dedicated scheduling. Most rail networks simply cannot afford comprehensive coverage.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">⏰</div>
+                <h3>Delayed Response</h3>
+                <p>Issues are often discovered only after visual inspections or — catastrophically — after accidents occur. Reactive maintenance costs lives.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">🏔️</div>
+                <h3>Remote Access</h3>
+                <p>Thousands of kilometers run through remote, difficult terrain. Sending teams to inspect every meter is logistically impossible.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution" id="solution">
+        <div class="section-header">
+            <h2>The RailGuard Solution</h2>
+            <p>Turn every commercial train into a high-precision inspection platform with our multi-sensor AI system.</p>
+        </div>
+
+        <div class="tech-stack">
+            <div class="tech-card">
+                <div class="tech-icon">📷</div>
+                <h3>4K Visual Spectrum</h3>
+                <p>High-resolution cameras capture detailed imagery of rails, fasteners, sleepers, and ballast condition at operational speeds up to 350 km/h.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">🌡️</div>
+                <h3>Thermal Imaging</h3>
+                <p>Infrared cameras detect overheating components, friction anomalies, and stress points invisible to the naked eye.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">📡</div>
+                <h3>LiDAR Scanner</h3>
+                <p>3D laser scanning creates millimeter-precise track geometry profiles, detecting wear, deformation, and gauge deviations.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">🎯</div>
+                <h3>Ground-Penetrating Radar</h3>
+                <p>Subsurface imaging detects ballast degradation, voids, and drainage issues before they cause track instability.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">🧠</div>
+                <h3>Edge AI Processing</h3>
+                <p>Onboard GPU clusters run real-time inference. Anomalies detected in milliseconds, with only alerts and metadata transmitted.</p>
+            </div>
+            <div class="tech-card">
+                <div class="tech-icon">📡</div>
+                <h3>Satellite Connectivity</h3>
+                <p>4G/5G and StarLink integration ensures uninterrupted communication even in remote tunnels and rural corridors.</p>
+            </div>
+        </div>
+
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="icon">📸</div>
+                <p>Multi-sensor data capture</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="icon">⚡</div>
+                <p>Real-time AI analysis</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="icon">🚨</div>
+                <p>Anomaly detection</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="icon">📡</div>
+                <p>Instant alert to control center</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="icon">🔧</div>
+                <p>Maintenance dispatched</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="advantages">
+        <div class="section-header">
+            <h2>Why RailGuard Wins</h2>
+            <p>Comparison of inspection methods across key performance indicators.</p>
+        </div>
+
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Coverage</th>
+                        <th>Frequency</th>
+                        <th>Cost per KM</th>
+                        <th>Detection Speed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Manual Inspection</td>
+                        <td class="negative">5-10%</td>
+                        <td class="negative">Weekly/Monthly</td>
+                        <td class="negative">€450</td>
+                        <td class="negative">Days</td>
+                    </tr>
+                    <tr>
+                        <td>Specialized Hi-Rail Vehicles</td>
+                        <td>100%</td>
+                        <td class="negative">Quarterly</td>
+                        <td class="negative">€180</td>
+                        <td class="negative">Weeks</td>
+                    </tr>
+                    <tr>
+                        <td>Fixed Track Sensors</td>
+                        <td class="negative">Key points only</td>
+                        <td>Continuous</td>
+                        <td class="negative">€2,000+ (install)</td>
+                        <td class="highlight">Instant</td>
+                    </tr>
+                    <tr style="background: rgba(0, 201, 167, 0.1);">
+                        <td><strong>🚀 RailGuard AI</strong></td>
+                        <td class="highlight">100%</td>
+                        <td class="highlight">Every train pass</td>
+                        <td class="highlight">€12</td>
+                        <td class="highlight">&lt; 1 second</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="market" id="market">
+        <div class="section-header">
+            <h2>Market Opportunity</h2>
+            <p>Rail infrastructure investment is accelerating globally. The demand for predictive maintenance solutions has never been higher.</p>
+        </div>
+
+        <div class="market-stats">
+            <div class="market-stat">
+                <div class="number">€18.2B</div>
+                <div class="label">Global Rail Maintenance Market 2026</div>
+            </div>
+            <div class="market-stat">
+                <div class="number">8.4%</div>
+                <div class="label">Annual Growth Rate (CAGR)</div>
+            </div>
+            <div class="market-stat">
+                <div class="number">210K</div>
+                <div class="label">KM of European Railway Track</div>
+            </div>
+            <div class="market-stat">
+                <div class="number">15K+</div>
+                <div class="label">KM in Spain Alone</div>
+            </div>
+        </div>
+
+        <div class="validation-box">
+            <h3>✅ Market Validation: AutoKontroll (Norway)</h3>
+            <p>A similar project by <strong>NR (Norwegian Computing Center)</strong> and <strong>Bane NOR</strong> is already validating this approach. Their AutoKontroll project (2024-2027) uses train-mounted cameras and AI to automate railway inspections in Norway. This confirms the technical feasibility and market demand for our enhanced multi-sensor solution.</p>
+        </div>
+    </section>
+
+    <section class="business" id="technology">
+        <div class="section-header">
+            <h2>Implementation</h2>
+            <p>A scalable approach to deploying autonomous railway inspection systems.</p>
+        </div>
+
+        <div class="revenue-streams">
+            <div class="revenue-card">
+                <h3>🚆 Fleet Deployment</h3>
+                <ul>
+                    <li>Sensor kits installed on existing commercial trains</li>
+                    <li>No dedicated inspection vehicles required</li>
+                    <li>Scales with train frequency automatically</li>
+                </ul>
+            </div>
+            <div class="revenue-card">
+                <h3>🔧 Edge Computing</h3>
+                <ul>
+                    <li>Onboard AI processing units</li>
+                    <li>Real-time inference at operational speeds</li>
+                    <li>Low-latency anomaly detection</li>
+                </ul>
+            </div>
+            <div class="revenue-card">
+                <h3>📊 Central Platform</h3>
+                <ul>
+                    <li>Unified dashboard for maintenance teams</li>
+                    <li>Predictive analytics and trend monitoring</li>
+                    <li>Integration with existing maintenance systems</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section" id="contact">
+        <h2>Building the Future of Rail Safety</h2>
+        <p>Join us in developing technology that prevents railway disasters and saves lives.</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn-primary">View Documentation</a>
+            <a href="#" class="btn-secondary">Contact Team</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 RailGuard AI. Autonomous Railway Inspection Technology.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Animate stats on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'countUp 1s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-number, .number').forEach(stat => {
+            observer.observe(stat);
+        });
+    </script>
+</body>
+</html>
