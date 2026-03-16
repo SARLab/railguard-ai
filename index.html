@@ -421,6 +421,191 @@
             font-size: 1.1rem;
         }
 
+        /* Accidents Section */
+        .accidents {
+            background: var(--darker);
+            padding: 6rem 5%;
+        }
+
+        .accidents-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .accident-card {
+            background: var(--dark);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .accident-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        .accident-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .accident-card.featured {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, var(--dark) 100%);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .accident-date {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .accident-location {
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .accident-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .accident-stats {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-badge.deaths {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--primary);
+        }
+
+        .stat-badge.injuries {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+        }
+
+        .accident-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .accident-links {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .accident-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .accident-links a:hover {
+            color: var(--light);
+        }
+
+        .how-prevented {
+            background: rgba(0, 201, 167, 0.08);
+            border-left: 3px solid var(--accent);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            color: var(--light);
+            line-height: 1.5;
+        }
+
+        .how-prevented strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .accidents-summary {
+            max-width: 900px;
+            margin: 4rem auto 0;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(0, 78, 137, 0.1) 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+        }
+
+        .accidents-summary h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+        }
+
+        .summary-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .summary-stat .label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .summary-text {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (min-width: 768px) {
+            .accidents-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .accident-card.featured {
+                grid-column: 1 / -1;
+            }
+        }
+
         /* Problem Section */
         .problem {
             background: var(--darker);
@@ -791,6 +976,7 @@
         <div class="logo">⚡ RailGuard AI</div>
         <ul class="nav-links">
             <li><a href="#problem">Problem</a></li>
+            <li><a href="#accidents">Accidents</a></li>
             <li><a href="#solution">Solution</a></li>
             <li><a href="#market">Market</a></li>
             <li><a href="#technology">Technology</a></li>
@@ -890,6 +1076,108 @@
                 <h3>Remote Access</h3>
                 <p>Thousands of kilometers run through remote, difficult terrain. Sending teams to inspect every meter is logistically impossible.</p>
             </div>
+        </div>
+    </section>
+
+    <section class="accidents" id="accidents">
+        <div class="section-header">
+            <h2>Preventable Tragedies</h2>
+            <p>History shows us that track infrastructure failures continue to claim lives. Continuous monitoring could have prevented these disasters.</p>
+        </div>
+
+        <div class="accidents-grid">
+            <div class="accident-card featured">
+                <div class="accident-date">January 18, 2026</div>
+                <div class="accident-location">🇪🇸 Adamuz, Córdoba, Spain</div>
+                <h3>Adamuz High-Speed Derailment</h3>
+                <div class="accident-stats">
+                    <span class="stat-badge deaths">46 deaths</span>
+                    <span class="stat-badge injuries">292 injured</span>
+                </div>
+                <p>A high-speed Iryo train derailed on a straight section of the Madrid–Seville line that had been refurbished just months earlier. A second train collided with the wreckage. Track infrastructure failure is under investigation as a contributing factor.</p>
+                <div class="accident-links">
+                    <a href="https://en.wikipedia.org/wiki/2026_Adamuz_rail_disaster" target="_blank">Wikipedia →</a>
+                    <a href="https://www.cnn.com/2026/01/18/europe/spain-trains-derail-adamuz-latam-intl" target="_blank">CNN Report →</a>
+                </div>
+                <div class="how-prevented">
+                    <strong>How RailGuard could have helped:</strong> Continuous multi-sensor scanning would have detected track degradation, rail fractures, or ballast issues in the months between refurbishment and the accident, alerting maintenance teams before the critical failure.
+                </div>
+            </div>
+
+            <div class="accident-card">
+                <div class="accident-date">October 17, 2000</div>
+                <div class="accident-location">🇬🇧 Hatfield, UK</div>
+                <h3>Hatfield Rail Crash</h3>
+                <div class="accident-stats">
+                    <span class="stat-badge deaths">4 deaths</span>
+                    <span class="stat-badge injuries">70 injured</span>
+                </div>
+                <p>A high-speed train derailed when a rail fractured into over 300 pieces due to undetected fatigue cracks. The rail had been in service for decades without adequate inspection. The disaster led to the collapse of Railtrack and nationalization of UK rail infrastructure.</p>
+                <div class="accident-links">
+                    <a href="https://en.wikipedia.org/wiki/Hatfield_rail_crash" target="_blank">Wikipedia →</a>
+                    <a href="https://www.railwaysarchive.co.uk/docsummary.php?docID=188" target="_blank">Official Report →</a>
+                </div>
+                <div class="how-prevented">
+                    <strong>How RailGuard could have helped:</strong> Visual and thermal imaging would have detected the fatigue cracks developing in the rail head months before failure, while LiDAR would have identified track geometry changes caused by deteriorating rail integrity.
+                </div>
+            </div>
+
+            <div class="accident-card">
+                <div class="accident-date">July 24, 2013</div>
+                <div class="accident-location">🇪🇸 Santiago de Compostela, Spain</div>
+                <h3>Angrois Derailment</h3>
+                <div class="accident-stats">
+                    <span class="stat-badge deaths">78 deaths</span>
+                    <span class="stat-badge injuries">143 injured</span>
+                </div>
+                <p>Spain's deadliest rail accident since 1944 occurred when an Alvia train entered a curve at 195 km/h—more than double the 80 km/h speed limit. While primarily caused by driver error, the curve's design and lack of automatic speed enforcement were contributing factors.</p>
+                <div class="accident-links">
+                    <a href="https://en.wikipedia.org/wiki/Santiago_de_Compostela_derailment" target="_blank">Wikipedia →</a>
+                </div>
+                <div class="how-prevented">
+                    <strong>How RailGuard could have helped:</strong> Continuous track geometry monitoring combined with speed detection analytics would have identified the dangerous speed-curve combination and supported implementation of automated speed enforcement systems.
+                </div>
+            </div>
+
+            <div class="accident-card">
+                <div class="accident-date">April 25, 2005</div>
+                <div class="accident-location">🇯🇵 Amagasaki, Japan</div>
+                <h3>JR Fukuchiyama Line Derailment</h3>
+                <div class="accident-stats">
+                    <span class="stat-badge deaths">107 deaths</span>
+                    <span class="stat-badge injuries">562 injured</span>
+                </div>
+                <p>Japan's deadliest rail disaster in decades occurred when a commuter train entered a 304-meter radius curve at 116 km/h—46 km/h over the speed limit. The first car derailed and struck an apartment building. While primarily caused by driver error, infrastructure improvements were mandated.</p>
+                <div class="accident-links">
+                    <a href="https://en.wikipedia.org/wiki/Amagasaki_derailment" target="_blank">Wikipedia →</a>
+                </div>
+                <div class="how-prevented">
+                    <strong>How RailGuard could have helped:</strong> Historical data from continuous monitoring would have revealed the dangerous curve dynamics, enabling infrastructure improvements (banking, speed enforcement, or track realignment) before tragedy struck.
+                </div>
+            </div>
+        </div>
+
+        <div class="accidents-summary">
+            <h3>The Human Cost of Inadequate Inspection</h3>
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <div class="number">335+</div>
+                    <div class="label">Lives Lost</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="number">1,000+</div>
+                    <div class="label">People Injured</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="number">4</div>
+                    <div class="label">Major Disasters</div>
+                </div>
+                <div class="summary-stat">
+                    <div class="number">25+</div>
+                    <div class="label">Years of Tragedy</div>
+                </div>
+            </div>
+            <p class="summary-text">These are not isolated incidents. They represent a systemic failure in railway infrastructure monitoring that persists worldwide. RailGuard AI exists to ensure no family loses a loved one to a preventable track failure.</p>
         </div>
     </section>
 
