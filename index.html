@@ -158,13 +158,8 @@
             left: 0;
             width: 100%;
             height: 40px;
-            background: repeating-linear-gradient(
-                90deg,
-                #3a3a3a 0px,
-                #3a3a3a 40px,
-                #2a2a2a 40px,
-                #2a2a2a 80px
-            );
+            background: 
+                repeating-linear-gradient(90deg, #2a2a2a 0px, #2a2a2a 40px, #1a1a1a 40px, #1a1a1a 80px);
         }
 
         .track::before {
@@ -173,8 +168,25 @@
             top: 50%;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: #555;
+            height: 6px;
+            background: #666;
+            transform: translateY(-50%);
+            box-shadow: 0 -12px 0 -2px #444, 0 12px 0 -2px #444;
+        }
+
+        .track::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(90deg, 
+                transparent 0px, transparent 38px, 
+                #333 38px, #333 42px, 
+                transparent 42px, transparent 78px,
+                #333 78px, #333 82px
+            );
             transform: translateY(-50%);
         }
 
@@ -234,39 +246,92 @@
             animation: statusBlink 1s ease-in-out infinite;
         }
 
-        .sensor-array {
+        .sensor-unit {
             position: absolute;
             bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-        }
-
-        .sensor {
-            width: 30px;
-            height: 20px;
+            width: 50px;
+            height: 25px;
             background: linear-gradient(180deg, #333 0%, #111 100%);
-            border-radius: 0 0 10px 10px;
-            position: relative;
+            border-radius: 0 0 15px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .sensor::after {
+        .sensor-lens {
+            width: 30px;
+            height: 12px;
+            background: radial-gradient(ellipse at center, var(--accent) 0%, #006b5a 100%);
+            border-radius: 50%;
+            animation: sensorActive 8s linear infinite;
+        }
+
+        /* Laser Beam */
+        .laser-beam {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            pointer-events: none;
+        }
+
+        .beam {
+            position: absolute;
+            bottom: 10px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, rgba(0, 201, 167, 0.3) 100%);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            animation: beamScan 8s linear infinite;
+            transform-origin: left center;
+        }
+
+        .beam-hit {
+            position: absolute;
+            bottom: 50px;
+            right: 130px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.8) 0%, transparent 70%);
+            opacity: 0;
+            animation: beamHit 8s linear infinite;
+        }
+
+        /* Anomaly Detection */
+        .anomaly {
+            position: absolute;
+            bottom: 55px;
+            right: 130px;
+            width: 24px;
+            height: 18px;
+            background: linear-gradient(180deg, #8B4513 0%, #5D3A1A 100%);
+            border-radius: 2px;
+            border: 1px solid #A0522D;
+            animation: anomalyDetect 8s linear infinite;
+        }
+
+        .anomaly::before {
             content: '';
             position: absolute;
-            bottom: 5px;
+            top: -4px;
             left: 50%;
             transform: translateX(-50%);
-            width: 15px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: sensorPulse 8s linear infinite;
+            width: 16px;
+            height: 4px;
+            background: #666;
+            border-radius: 2px;
         }
 
-        /* Scanning Waves */
-        .scan-wave {
+        .anomaly-label {
             position: absolute;
+            bottom: 85px;
+            right: 80px;
+            background: var(--primary);
+            color: white;
             bottom: 50px;
             left: 0;
             width: 100%;
@@ -389,7 +454,7 @@
                 left: -220px;
             }
             60% {
-                left: calc(100% - 320px);
+                left: calc(100% - 350px);
             }
             100% {
                 left: calc(100% + 50px);
@@ -419,49 +484,126 @@
             50% { opacity: 0.3; }
         }
 
-        @keyframes sensorPulse {
+        @keyframes sensorActive {
             0%, 60% {
-                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-                opacity: 0.6;
+                box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
             }
-            65% {
-                box-shadow: 0 0 30px var(--accent), 0 0 60px var(--accent), 0 0 90px var(--accent);
-                opacity: 1;
+            65%, 80% {
+                box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+                background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%);
             }
-            80%, 100% {
-                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-                opacity: 0.6;
+            100% {
+                box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
             }
         }
 
-        @keyframes waveExpand {
+        @keyframes beamScan {
             0% {
-                left: -100px;
-                width: 50px;
-                height: 20px;
-                opacity: 0;
+                left: 0;
+                width: 0;
+                opacity: 0.3;
             }
             5% {
-                opacity: 1;
-            }
-            30% {
-                left: 30%;
-                width: 150px;
-                height: 60px;
                 opacity: 0.8;
             }
             60% {
-                left: calc(100% - 320px);
-                width: 300px;
-                height: 120px;
-                opacity: 0.6;
-                border-color: var(--accent);
+                left: calc(100% - 350px);
+                width: 220px;
+                opacity: 0.8;
+                background: linear-gradient(90deg, var(--accent) 0%, rgba(0, 201, 167, 0.3) 100%);
+                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
             }
             65% {
-                left: calc(100% - 300px);
-                width: 350px;
-                height: 140px;
+                left: calc(100% - 330px);
+                width: 200px;
                 opacity: 1;
+                background: linear-gradient(90deg, var(--primary) 0%, rgba(255, 107, 53, 0.3) 100%);
+                box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
+            }
+            80% {
+                left: calc(100% - 280px);
+                width: 150px;
+                opacity: 0.5;
+            }
+            100% {
+                left: calc(100% - 200px);
+                width: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes beamHit {
+            0%, 58% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            60% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            65% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+            75% {
+                opacity: 0.8;
+                transform: scale(1.2);
+            }
+            85%, 100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        @keyframes anomalyDetect {
+            0%, 58% {
+                box-shadow: 0 0 2px rgba(139, 69, 19, 0.5);
+                filter: brightness(1);
+            }
+            60% {
+                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+                filter: brightness(1.2);
+            }
+            65% {
+                box-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary), 0 0 90px var(--primary);
+                filter: brightness(1.5);
+                background: linear-gradient(180deg, #FF6B35 0%, #8B0000 100%);
+            }
+            75% {
+                box-shadow: 0 0 40px var(--primary), 0 0 80px var(--primary);
+                filter: brightness(1.8);
+            }
+            85%, 100% {
+                box-shadow: 0 0 2px rgba(139, 69, 19, 0.5);
+                filter: brightness(1);
+            }
+        }
+
+        @keyframes labelPop {
+            0%, 60% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.8);
+            }
+            65% {
+                opacity: 1;
+                transform: translateY(0) scale(1.1);
+            }
+            70% {
+                transform: translateY(0) scale(1);
+            }
+            85%, 95% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes dataFlicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
                 border-color: var(--primary);
                 border-width: 3px;
             }
@@ -1147,20 +1289,15 @@
                 <div class="train">
                     <div class="train-body">
                         <div class="train-window"></div>
-                        <div class="sensor-array">
-                            <div class="sensor" title="4K Camera Array"></div>
-                            <div class="sensor" title="LiDAR Scanner"></div>
-                            <div class="sensor" title="Thermal Camera"></div>
-                            <div class="sensor" title="Radar"></div>
+                        <div class="sensor-unit">
+                            <div class="sensor-lens"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="scan-wave">
-                    <div class="wave"></div>
-                    <div class="wave"></div>
-                    <div class="wave"></div>
-                    <div class="wave"></div>
+                <div class="laser-beam">
+                    <div class="beam"></div>
+                    <div class="beam-hit"></div>
                 </div>
 
                 <div class="anomaly"></div>
