@@ -181,11 +181,10 @@
         .train {
             position: absolute;
             bottom: 85px;
-            left: 50%;
-            transform: translateX(-50%);
+            left: -220px;
             width: 200px;
             height: 80px;
-            animation: trainFloat 3s ease-in-out infinite;
+            animation: trainMove 8s linear infinite;
         }
 
         .train-body {
@@ -197,6 +196,19 @@
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .train-body::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            width: 30px;
+            height: 8px;
+            background: rgba(255, 0, 0, 0.8);
+            border-radius: 4px;
+            opacity: 0;
+            animation: alarmLight 8s linear infinite;
         }
 
         .train-window {
@@ -217,7 +229,7 @@
             right: 10px;
             width: 8px;
             height: 8px;
-            background: var(--primary);
+            background: var(--accent);
             border-radius: 50%;
             animation: statusBlink 1s ease-in-out infinite;
         }
@@ -249,16 +261,15 @@
             height: 8px;
             background: var(--accent);
             border-radius: 50%;
-            animation: sensorPulse 1.5s ease-in-out infinite;
+            animation: sensorPulse 8s linear infinite;
         }
 
         /* Scanning Waves */
         .scan-wave {
             position: absolute;
             bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
+            left: 0;
+            width: 100%;
             height: 150px;
             pointer-events: none;
         }
@@ -266,35 +277,34 @@
         .wave {
             position: absolute;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: -100px;
             border: 2px solid var(--accent);
             border-radius: 50%;
             opacity: 0;
-            animation: waveExpand 2s ease-out infinite;
+            animation: waveExpand 8s linear infinite;
         }
 
         .wave:nth-child(1) { animation-delay: 0s; }
-        .wave:nth-child(2) { animation-delay: 0.5s; }
-        .wave:nth-child(3) { animation-delay: 1s; }
-        .wave:nth-child(4) { animation-delay: 1.5s; }
+        .wave:nth-child(2) { animation-delay: 0.3s; }
+        .wave:nth-child(3) { animation-delay: 0.6s; }
+        .wave:nth-child(4) { animation-delay: 0.9s; }
 
         /* Anomaly Detection */
         .anomaly {
             position: absolute;
             bottom: 55px;
-            right: 100px;
+            right: 120px;
             width: 20px;
             height: 15px;
             background: var(--primary);
             border-radius: 3px;
-            animation: anomalyPulse 0.5s ease-in-out infinite alternate;
+            animation: anomalyPulse 8s linear infinite;
         }
 
         .anomaly-label {
             position: absolute;
             bottom: 80px;
-            right: 60px;
+            right: 80px;
             background: var(--primary);
             color: white;
             padding: 5px 10px;
@@ -310,17 +320,93 @@
             right: 20px;
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
-            color: var(--accent);
-            opacity: 0.8;
+            text-align: right;
         }
 
         .data-line {
+            margin: 4px 0;
             animation: dataFlicker 0.1s ease-in-out infinite;
         }
 
-        @keyframes trainFloat {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-5px); }
+        .data-line.status-nominal {
+            color: var(--accent);
+        }
+
+        .data-line.status-scanning {
+            color: #fff;
+        }
+
+        .data-line.status-alarm {
+            color: var(--primary);
+            font-weight: bold;
+            animation: alarmText 8s linear infinite;
+        }
+
+        .scan-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            animation: scanProgress 8s linear infinite;
+        }
+
+        @keyframes scanProgress {
+            0% {
+                width: 0%;
+            }
+            60% {
+                width: 75%;
+                background: linear-gradient(90deg, var(--accent) 0%, var(--accent) 100%);
+            }
+            65% {
+                width: 80%;
+                background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            }
+            80% {
+                width: 100%;
+                background: var(--primary);
+            }
+            100% {
+                width: 100%;
+            }
+        }
+
+        @keyframes alarmText {
+            0%, 60% {
+                opacity: 0;
+            }
+            65%, 95% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes trainMove {
+            0% {
+                left: -220px;
+            }
+            60% {
+                left: calc(100% - 320px);
+            }
+            100% {
+                left: calc(100% + 50px);
+            }
+        }
+
+        @keyframes alarmLight {
+            0%, 60% {
+                opacity: 0;
+            }
+            65%, 95% {
+                opacity: 1;
+                box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4);
+            }
+            100% {
+                opacity: 0;
+            }
         }
 
         @keyframes windowGlow {
@@ -334,37 +420,99 @@
         }
 
         @keyframes sensorPulse {
-            0%, 100% { 
+            0%, 60% {
                 box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+                opacity: 0.6;
+            }
+            65% {
+                box-shadow: 0 0 30px var(--accent), 0 0 60px var(--accent), 0 0 90px var(--accent);
                 opacity: 1;
             }
-            50% { 
-                box-shadow: 0 0 20px var(--accent), 0 0 40px var(--accent);
-                opacity: 0.8;
+            80%, 100% {
+                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+                opacity: 0.6;
             }
         }
 
         @keyframes waveExpand {
             0% {
+                left: -100px;
                 width: 50px;
                 height: 20px;
+                opacity: 0;
+            }
+            5% {
                 opacity: 1;
             }
-            100% {
+            30% {
+                left: 30%;
+                width: 150px;
+                height: 60px;
+                opacity: 0.8;
+            }
+            60% {
+                left: calc(100% - 320px);
+                width: 300px;
+                height: 120px;
+                opacity: 0.6;
+                border-color: var(--accent);
+            }
+            65% {
+                left: calc(100% - 300px);
+                width: 350px;
+                height: 140px;
+                opacity: 1;
+                border-color: var(--primary);
+                border-width: 3px;
+            }
+            80% {
+                left: calc(100% - 250px);
                 width: 400px;
                 height: 160px;
+                opacity: 0.3;
+            }
+            100% {
+                left: calc(100% - 200px);
+                width: 450px;
+                height: 180px;
                 opacity: 0;
             }
         }
 
         @keyframes anomalyPulse {
-            from { box-shadow: 0 0 5px var(--primary); }
-            to { box-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary); }
+            0%, 60% {
+                box-shadow: 0 0 5px var(--primary);
+                opacity: 0.5;
+            }
+            65%, 75% {
+                box-shadow: 0 0 30px var(--primary), 0 0 50px var(--primary), 0 0 70px var(--primary);
+                opacity: 1;
+            }
+            80%, 100% {
+                box-shadow: 0 0 5px var(--primary);
+                opacity: 0.5;
+            }
         }
 
         @keyframes labelPop {
-            0%, 90%, 100% { opacity: 0; transform: translateY(10px); }
-            20%, 80% { opacity: 1; transform: translateY(0); }
+            0%, 60% {
+                opacity: 0;
+                transform: translateY(10px) scale(0.8);
+            }
+            65% {
+                opacity: 1;
+                transform: translateY(0) scale(1.1);
+            }
+            70% {
+                transform: translateY(0) scale(1);
+            }
+            85%, 95% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
         }
 
         @keyframes dataFlicker {
@@ -594,16 +742,6 @@
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.6;
-        }
-
-        @media (min-width: 768px) {
-            .accidents-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .accident-card.featured {
-                grid-column: 1 / -1;
-            }
         }
 
         /* Problem Section */
@@ -996,11 +1134,13 @@
             <!-- Animated Train Demo -->
             <div class="train-demo">
                 <div class="data-stream">
-                    <div class="data-line">> SCANNING: KM 142.3</div>
-                    <div class="data-line">> LIDAR: ACTIVE</div>
-                    <div class="data-line">> THERMAL: NOMINAL</div>
-                    <div class="data-line">> AI MODEL: v2.4.1</div>
+                    <div class="data-line status-scanning">> SCANNING: KM 142.3</div>
+                    <div class="data-line status-nominal">> LIDAR: ACTIVE</div>
+                    <div class="data-line status-nominal">> THERMAL: NOMINAL</div>
+                    <div class="data-line status-alarm" style="opacity: 0;">> 🚨 ANOMALY DETECTED</div>
                 </div>
+                
+                <div class="scan-progress"></div>
                 
                 <div class="track"></div>
                 
