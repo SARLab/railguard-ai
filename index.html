@@ -204,7 +204,7 @@
         .train {
             position: absolute;
             bottom: 82px;
-            left: -220px;
+            left: 0;
             width: 240px;
             height: 95px;
             animation: trainMove 8s linear infinite;
@@ -499,7 +499,7 @@
         .anomaly {
             position: absolute;
             bottom: 47px;
-            right: 280px;
+            left: 38%;
             width: 35px;
             height: 10px;
             background: 
@@ -665,9 +665,9 @@
         }
 
         @keyframes trainMove {
-            0% { left: -260px; }
-            40% { left: calc(100% - 545px); }
-            100% { left: calc(100% + 50px); }
+            0% { transform: translateX(-110%); }
+            40% { transform: translateX(35%); }
+            100% { transform: translateX(120%); }
         }
 
         @keyframes wheelRotate {
