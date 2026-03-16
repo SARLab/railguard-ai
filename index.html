@@ -602,6 +602,18 @@
             animation: alarmText 8s linear infinite;
         }
 
+        .data-line.status-comm {
+            color: #87CEEB;
+            font-weight: bold;
+            animation: commText 8s linear infinite;
+        }
+
+        .data-line.status-alert {
+            color: var(--primary);
+            font-weight: bold;
+            animation: alertText 8s linear infinite;
+        }
+
         .km-counter {
             animation: kmUpdate 8s linear infinite;
         }
@@ -618,6 +630,20 @@
         @keyframes alarmText {
             0%, 58% { opacity: 0; }
             60%, 95% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes commText {
+            0%, 58% { opacity: 0; }
+            59% { opacity: 1; }
+            75%, 95% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes alertText {
+            0%, 62% { opacity: 0; }
+            63% { opacity: 1; }
+            95%, 100% { opacity: 1; }
             100% { opacity: 0; }
         }
 
@@ -1373,10 +1399,11 @@
                 <div class="scan-progress"></div>
                 
                 <div class="data-stream">
-                    <div class="data-line status-scanning km-counter">&gt; SCANNING: KM 142.3</div>
+                    <div class="data-line status-scanning km-counter">&gt; SCANNING: KM 142.300</div>
                     <div class="data-line status-nominal">&gt; LIDAR: ACTIVE</div>
                     <div class="data-line status-nominal">&gt; THERMAL: NOMINAL</div>
-                    <div class="data-line status-alarm" style="opacity: 0;">&gt; 🚨 ANOMALY DETECTED</div>
+                    <div class="data-line status-comm" style="opacity: 0;">&gt; 📡 SENDING TO CONTROL CENTER...</div>
+                    <div class="data-line status-alert" style="opacity: 0;">&gt; 🚨 ANOMALY: RAIL FRACTURE DETECTED</div>
                 </div>
                 
                 <div class="track"></div>
@@ -1426,7 +1453,6 @@
                 </div>
 
                 <div class="anomaly"></div>
-                <div class="anomaly-label">⚠️ ANOMALY DETECTED</div>
             </div>
 
             <div class="stats-bar">
