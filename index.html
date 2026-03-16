@@ -158,8 +158,7 @@
             left: 0;
             width: 100%;
             height: 40px;
-            background: 
-                repeating-linear-gradient(90deg, #2a2a2a 0px, #2a2a2a 40px, #1a1a1a 40px, #1a1a1a 80px);
+            background: repeating-linear-gradient(90deg, #2a2a2a 0px, #2a2a2a 40px, #1a1a1a 40px, #1a1a1a 80px);
         }
 
         .track::before {
@@ -192,122 +191,190 @@
 
         .train {
             position: absolute;
-            bottom: 85px;
+            bottom: 88px;
             left: -220px;
             width: 200px;
-            height: 80px;
+            height: 95px;
             animation: trainMove 8s linear infinite;
         }
 
         .train-body {
             width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-            border-radius: 10px 10px 5px 5px;
+            height: 70px;
+            background: linear-gradient(180deg, #2a2a4e 0%, #1a1a3e 50%, #16213e 100%);
+            border-radius: 10px 40px 5px 5px;
             position: relative;
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
+        /* Cabin on the right (front) */
         .train-body::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            width: 30px;
-            height: 8px;
-            background: rgba(255, 0, 0, 0.8);
-            border-radius: 4px;
-            opacity: 0;
-            animation: alarmLight 8s linear infinite;
-        }
-
-        .train-window {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            width: 60px;
-            height: 30px;
-            background: linear-gradient(135deg, #00C9A7 0%, #004E89 100%);
-            border-radius: 5px;
-            animation: windowGlow 2s ease-in-out infinite alternate;
-        }
-
-        .train-window::after {
             content: '';
             position: absolute;
             top: 5px;
             right: 10px;
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: statusBlink 1s ease-in-out infinite;
+            width: 70px;
+            height: 40px;
+            background: linear-gradient(135deg, #00C9A7 0%, #004E89 100%);
+            border-radius: 5px 35px 5px 5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
+        /* Alarm light on top of cabin */
+        .train-body::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: 30px;
+            width: 20px;
+            height: 10px;
+            background: rgba(255, 0, 0, 0.8);
+            border-radius: 10px 10px 0 0;
+            opacity: 0;
+            animation: alarmLight 8s linear infinite;
+        }
+
+        /* Train wheels */
+        .train-wheel {
+            position: absolute;
+            bottom: 0;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle at 30% 30%, #555 0%, #222 50%, #111 100%);
+            border-radius: 50%;
+            border: 3px solid #333;
+            animation: wheelRotate 8s linear infinite;
+        }
+
+        .train-wheel::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #666;
+            border-radius: 50%;
+        }
+
+        .train-wheel.w1 { left: 30px; }
+        .train-wheel.w2 { left: 80px; }
+        .train-wheel.w3 { left: 130px; }
+        .train-wheel.w4 { left: 170px; }
+
+        .train-window {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(135deg, rgba(0, 201, 167, 0.6) 0%, rgba(0, 78, 137, 0.6) 100%);
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Sensor housing under train */
         .sensor-unit {
             position: absolute;
-            bottom: -15px;
+            bottom: 22px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 25px;
-            background: linear-gradient(180deg, #333 0%, #111 100%);
-            border-radius: 0 0 15px 15px;
+            width: 60px;
+            height: 20px;
+            background: linear-gradient(180deg, #444 0%, #222 100%);
+            border-radius: 0 0 10px 10px;
+            border: 1px solid #555;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .sensor-lens {
-            width: 30px;
-            height: 12px;
+            width: 40px;
+            height: 10px;
             background: radial-gradient(ellipse at center, var(--accent) 0%, #006b5a 100%);
             border-radius: 50%;
             animation: sensorActive 8s linear infinite;
         }
 
-        /* Laser Beam */
-        .laser-beam {
+        /* FOV Beam - WiFi style cone with flowing waves */
+        .fov-beam {
             position: absolute;
-            bottom: 50px;
+            bottom: 55px;
             left: 0;
             width: 100%;
             height: 100px;
             pointer-events: none;
+            overflow: hidden;
         }
 
-        .beam {
+        .beam-cone {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-top: 90px solid rgba(0, 201, 167, 0.08);
+            animation: beamMove 8s linear infinite;
+        }
+
+        .beam-cone::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 60px solid transparent;
+            border-right: 60px solid transparent;
+            border-top: 70px solid rgba(0, 201, 167, 0.12);
+        }
+
+        .beam-cone::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-top: 50px solid rgba(0, 201, 167, 0.15);
+        }
+
+        /* Flowing waves inside beam */
+        .beam-wave {
             position: absolute;
             bottom: 10px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent) 0%, rgba(0, 201, 167, 0.3) 100%);
-            border-radius: 2px;
-            box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-            animation: beamScan 8s linear infinite;
-            transform-origin: left center;
+            left: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+            border-radius: 1px;
+            opacity: 0;
+            animation: beamWave 8s linear infinite;
+            box-shadow: 0 0 6px var(--accent);
         }
 
-        .beam-hit {
-            position: absolute;
-            bottom: 50px;
-            right: 130px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 107, 53, 0.8) 0%, transparent 70%);
-            opacity: 0;
-            animation: beamHit 8s linear infinite;
-        }
+        .beam-wave:nth-child(2) { animation-delay: 0.4s; }
+        .beam-wave:nth-child(3) { animation-delay: 0.8s; }
+        .beam-wave:nth-child(4) { animation-delay: 1.2s; }
+        .beam-wave:nth-child(5) { animation-delay: 1.6s; }
 
         /* Anomaly Detection */
         .anomaly {
             position: absolute;
-            bottom: 55px;
+            bottom: 58px;
             right: 130px;
-            width: 24px;
-            height: 18px;
+            width: 22px;
+            height: 16px;
             background: linear-gradient(180deg, #8B4513 0%, #5D3A1A 100%);
             border-radius: 2px;
             border: 1px solid #A0522D;
@@ -328,47 +395,7 @@
 
         .anomaly-label {
             position: absolute;
-            bottom: 85px;
-            right: 80px;
-            background: var(--primary);
-            color: white;
-            bottom: 50px;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            pointer-events: none;
-        }
-
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: -100px;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            opacity: 0;
-            animation: waveExpand 8s linear infinite;
-        }
-
-        .wave:nth-child(1) { animation-delay: 0s; }
-        .wave:nth-child(2) { animation-delay: 0.3s; }
-        .wave:nth-child(3) { animation-delay: 0.6s; }
-        .wave:nth-child(4) { animation-delay: 0.9s; }
-
-        /* Anomaly Detection */
-        .anomaly {
-            position: absolute;
-            bottom: 55px;
-            right: 120px;
-            width: 20px;
-            height: 15px;
-            background: var(--primary);
-            border-radius: 3px;
-            animation: anomalyPulse 8s linear infinite;
-        }
-
-        .anomaly-label {
-            position: absolute;
-            bottom: 80px;
+            bottom: 90px;
             right: 80px;
             background: var(--primary);
             color: white;
@@ -376,21 +403,25 @@
             border-radius: 5px;
             font-size: 0.75rem;
             font-weight: 600;
-            animation: labelPop 2s ease-in-out infinite;
+            animation: labelPop 8s linear infinite;
         }
 
+        /* Data Stream Console */
         .data-stream {
             position: absolute;
             top: 20px;
-            right: 20px;
+            left: 20px;
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
-            text-align: right;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .data-line {
             margin: 4px 0;
-            animation: dataFlicker 0.1s ease-in-out infinite;
         }
 
         .data-line.status-nominal {
@@ -404,7 +435,10 @@
         .data-line.status-alarm {
             color: var(--primary);
             font-weight: bold;
-            animation: alarmText 8s linear infinite;
+        }
+
+        .km-counter {
+            animation: kmUpdate 8s linear infinite;
         }
 
         .scan-progress {
@@ -417,249 +451,82 @@
         }
 
         @keyframes scanProgress {
-            0% {
-                width: 0%;
-            }
-            60% {
-                width: 75%;
-                background: linear-gradient(90deg, var(--accent) 0%, var(--accent) 100%);
-            }
-            65% {
-                width: 80%;
-                background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
-            }
-            80% {
-                width: 100%;
-                background: var(--primary);
-            }
-            100% {
-                width: 100%;
-            }
+            0% { width: 0%; background: var(--accent); }
+            60% { width: 75%; background: var(--accent); }
+            65% { width: 80%; background: var(--primary); }
+            80% { width: 100%; background: var(--primary); }
+            100% { width: 100%; }
         }
 
-        @keyframes alarmText {
-            0%, 60% {
-                opacity: 0;
-            }
-            65%, 95% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
+        @keyframes kmUpdate {
+            0% { content: "> SCANNING: KM 142.0"; }
+            10% { content: "> SCANNING: KM 142.1"; }
+            20% { content: "> SCANNING: KM 142.2"; }
+            30% { content: "> SCANNING: KM 142.3"; }
+            40% { content: "> SCANNING: KM 142.4"; }
+            50% { content: "> SCANNING: KM 142.5"; }
+            60% { content: "> SCANNING: KM 142.6"; }
+            70% { content: "> SCANNING: KM 142.7"; }
+            80% { content: "> SCANNING: KM 142.8"; }
+            90% { content: "> SCANNING: KM 142.9"; }
+            100% { content: "> SCANNING: KM 143.0"; }
         }
 
         @keyframes trainMove {
-            0% {
-                left: -220px;
-            }
-            60% {
-                left: calc(100% - 350px);
-            }
-            100% {
-                left: calc(100% + 50px);
-            }
+            0% { left: -220px; }
+            60% { left: calc(100% - 360px); }
+            100% { left: calc(100% + 50px); }
+        }
+
+        @keyframes wheelRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @keyframes alarmLight {
-            0%, 60% {
-                opacity: 0;
-            }
-            65%, 95% {
-                opacity: 1;
-                box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4);
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        @keyframes windowGlow {
-            from { box-shadow: 0 0 10px rgba(0, 201, 167, 0.3); }
-            to { box-shadow: 0 0 25px rgba(0, 201, 167, 0.6); }
-        }
-
-        @keyframes statusBlink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            0%, 60% { opacity: 0; }
+            65%, 95% { opacity: 1; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
+            100% { opacity: 0; }
         }
 
         @keyframes sensorActive {
-            0%, 60% {
-                box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
-            }
-            65%, 80% {
-                box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
-                background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%);
-            }
-            100% {
-                box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
-            }
+            0%, 60% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+            65%, 80% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
+            100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
         }
 
-        @keyframes beamScan {
-            0% {
-                left: 0;
-                width: 0;
-                opacity: 0.3;
-            }
-            5% {
-                opacity: 0.8;
-            }
-            60% {
-                left: calc(100% - 350px);
-                width: 220px;
-                opacity: 0.8;
-                background: linear-gradient(90deg, var(--accent) 0%, rgba(0, 201, 167, 0.3) 100%);
-                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-            }
-            65% {
-                left: calc(100% - 330px);
-                width: 200px;
-                opacity: 1;
-                background: linear-gradient(90deg, var(--primary) 0%, rgba(255, 107, 53, 0.3) 100%);
-                box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
-            }
-            80% {
-                left: calc(100% - 280px);
-                width: 150px;
-                opacity: 0.5;
-            }
-            100% {
-                left: calc(100% - 200px);
-                width: 0;
-                opacity: 0;
-            }
+        @keyframes beamMove {
+            0% { left: -200px; opacity: 0; }
+            5% { opacity: 1; }
+            60% { left: calc(100% - 360px); opacity: 1; }
+            65% { left: calc(100% - 340px); opacity: 1; border-top-color: rgba(255, 107, 53, 0.15); }
+            80% { left: calc(100% - 280px); opacity: 0.5; }
+            100% { left: calc(100% - 200px); opacity: 0; }
         }
 
-        @keyframes beamHit {
-            0%, 58% {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            60% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-            65% {
-                opacity: 1;
-                transform: scale(1.5);
-            }
-            75% {
-                opacity: 0.8;
-                transform: scale(1.2);
-            }
-            85%, 100% {
-                opacity: 0;
-                transform: scale(0.8);
-            }
+        @keyframes beamWave {
+            0% { left: -100px; width: 30px; opacity: 0; }
+            10% { opacity: 0.8; }
+            60% { left: calc(100% - 300px); width: 100px; opacity: 0.8; }
+            65% { left: calc(100% - 280px); width: 120px; opacity: 1; background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%); }
+            80% { left: calc(100% - 250px); width: 80px; opacity: 0.4; }
+            100% { left: calc(100% - 200px); width: 40px; opacity: 0; }
         }
 
         @keyframes anomalyDetect {
-            0%, 58% {
-                box-shadow: 0 0 2px rgba(139, 69, 19, 0.5);
-                filter: brightness(1);
-            }
-            60% {
-                box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
-                filter: brightness(1.2);
-            }
-            65% {
-                box-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary), 0 0 90px var(--primary);
-                filter: brightness(1.5);
-                background: linear-gradient(180deg, #FF6B35 0%, #8B0000 100%);
-            }
-            75% {
-                box-shadow: 0 0 40px var(--primary), 0 0 80px var(--primary);
-                filter: brightness(1.8);
-            }
-            85%, 100% {
-                box-shadow: 0 0 2px rgba(139, 69, 19, 0.5);
-                filter: brightness(1);
-            }
+            0%, 58% { box-shadow: 0 0 2px rgba(139, 69, 19, 0.5); filter: brightness(1); }
+            60% { box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent); filter: brightness(1.3); }
+            65% { box-shadow: 0 0 30px var(--primary), 0 0 60px var(--primary); filter: brightness(1.8); background: linear-gradient(180deg, #FF6B35 0%, #8B0000 100%); }
+            75% { box-shadow: 0 0 40px var(--primary), 0 0 80px var(--primary); filter: brightness(2); }
+            85%, 100% { box-shadow: 0 0 2px rgba(139, 69, 19, 0.5); filter: brightness(1); }
         }
 
         @keyframes labelPop {
-            0%, 60% {
-                opacity: 0;
-                transform: translateY(10px) scale(0.8);
-            }
-            65% {
-                opacity: 1;
-                transform: translateY(0) scale(1.1);
-            }
-            70% {
-                transform: translateY(0) scale(1);
-            }
-            85%, 95% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes dataFlicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-                border-color: var(--primary);
-                border-width: 3px;
-            }
-            80% {
-                left: calc(100% - 250px);
-                width: 400px;
-                height: 160px;
-                opacity: 0.3;
-            }
-            100% {
-                left: calc(100% - 200px);
-                width: 450px;
-                height: 180px;
-                opacity: 0;
-            }
-        }
-
-        @keyframes anomalyPulse {
-            0%, 60% {
-                box-shadow: 0 0 5px var(--primary);
-                opacity: 0.5;
-            }
-            65%, 75% {
-                box-shadow: 0 0 30px var(--primary), 0 0 50px var(--primary), 0 0 70px var(--primary);
-                opacity: 1;
-            }
-            80%, 100% {
-                box-shadow: 0 0 5px var(--primary);
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes labelPop {
-            0%, 60% {
-                opacity: 0;
-                transform: translateY(10px) scale(0.8);
-            }
-            65% {
-                opacity: 1;
-                transform: translateY(0) scale(1.1);
-            }
-            70% {
-                transform: translateY(0) scale(1);
-            }
-            85%, 95% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes dataFlicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 60% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            65% { opacity: 1; transform: translateY(0) scale(1.1); }
+            70% { transform: translateY(0) scale(1); }
+            85%, 95% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-10px); }
         }
 
         /* Stats Bar */
@@ -932,21 +799,6 @@
         .problem-card p {
             color: var(--gray);
             font-size: 0.95rem;
-        }
-
-        /* Alert Banner */
-        .alert-banner {
-            background: linear-gradient(90deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 107, 53, 0.05) 100%);
-            border-left: 4px solid var(--primary);
-            padding: 1.5rem 2rem;
-            border-radius: 0 12px 12px 0;
-            margin: 2rem auto;
-            max-width: 800px;
-        }
-
-        .alert-banner h4 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
         }
 
         /* Solution Section */
@@ -1275,14 +1127,14 @@
 
             <!-- Animated Train Demo -->
             <div class="train-demo">
-                <div class="data-stream">
-                    <div class="data-line status-scanning">> SCANNING: KM 142.3</div>
-                    <div class="data-line status-nominal">> LIDAR: ACTIVE</div>
-                    <div class="data-line status-nominal">> THERMAL: NOMINAL</div>
-                    <div class="data-line status-alarm" style="opacity: 0;">> 🚨 ANOMALY DETECTED</div>
-                </div>
-                
                 <div class="scan-progress"></div>
+                
+                <div class="data-stream">
+                    <div class="data-line status-scanning km-counter">&gt; SCANNING: KM 142.3</div>
+                    <div class="data-line status-nominal">&gt; LIDAR: ACTIVE</div>
+                    <div class="data-line status-nominal">&gt; THERMAL: NOMINAL</div>
+                    <div class="data-line status-alarm" style="opacity: 0;">&gt; 🚨 ANOMALY DETECTED</div>
+                </div>
                 
                 <div class="track"></div>
                 
@@ -1293,11 +1145,19 @@
                             <div class="sensor-lens"></div>
                         </div>
                     </div>
+                    <div class="train-wheel w1"></div>
+                    <div class="train-wheel w2"></div>
+                    <div class="train-wheel w3"></div>
+                    <div class="train-wheel w4"></div>
                 </div>
 
-                <div class="laser-beam">
-                    <div class="beam"></div>
-                    <div class="beam-hit"></div>
+                <div class="fov-beam">
+                    <div class="beam-cone"></div>
+                    <div class="beam-wave"></div>
+                    <div class="beam-wave"></div>
+                    <div class="beam-wave"></div>
+                    <div class="beam-wave"></div>
+                    <div class="beam-wave"></div>
                 </div>
 
                 <div class="anomaly"></div>
@@ -1625,24 +1485,6 @@
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             });
-        });
-
-        // Animate stats on scroll
-        const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'countUp 1s ease-out forwards';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.stat-number, .number').forEach(stat => {
-            observer.observe(stat);
         });
     </script>
 </body>
