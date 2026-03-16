@@ -223,8 +223,7 @@
         }
 
         /* Cabin on the right (front) */
-        .train-body::before {
-            content: '';
+        .cabin {
             position: absolute;
             top: 5px;
             right: 10px;
@@ -235,19 +234,63 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Alarm light on top of cabin */
-        .train-body::after {
-            content: '';
+        /* Cloud upload indicator */
+        .cloud-indicator {
             position: absolute;
-            top: -5px;
-            right: 30px;
-            width: 20px;
-            height: 10px;
-            background: rgba(255, 0, 0, 0.8);
-            border-radius: 10px 10px 0 0;
+            top: -35px;
+            right: 20px;
+            width: 40px;
+            height: 25px;
             opacity: 0;
-            animation: alarmLight 8s linear infinite;
+            animation: cloudAppear 8s linear infinite;
+            z-index: 15;
         }
+
+        .cloud-indicator::before {
+            content: '☁️';
+            font-size: 28px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            filter: drop-shadow(0 2px 5px rgba(70, 130, 180, 0.5));
+        }
+
+        .cloud-indicator::after {
+            content: '↑';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: var(--primary);
+            font-weight: bold;
+            animation: uploadArrow 8s linear infinite;
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* Data transmission effect */
+        .data-packets {
+            position: absolute;
+            top: -20px;
+            right: 35px;
+            width: 2px;
+            height: 2px;
+            opacity: 0;
+            animation: dataTransmit 8s linear infinite;
+        }
+
+        .data-packets::before,
+        .data-packets::after {
+            content: '●';
+            position: absolute;
+            color: var(--accent);
+            font-size: 6px;
+            opacity: 0;
+            animation: dataTransmit 8s linear infinite;
+        }
+
+        .data-packets::before { animation-delay: 0.15s; left: -8px; }
+        .data-packets::after { animation-delay: 0.3s; left: 8px; }
 
         /* Train wheels - realistic flanged wheels */
         .train-wheel {
@@ -615,6 +658,25 @@
             0%, 58% { opacity: 0; }
             60%, 95% { opacity: 1; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
             100% { opacity: 0; }
+        }
+
+        @keyframes cloudAppear {
+            0%, 55% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            60%, 95% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-10px) scale(0.8); }
+        }
+
+        @keyframes uploadArrow {
+            0%, 58% { opacity: 0; transform: translateX(-50%) translateY(5px); }
+            60%, 95% { opacity: 1; transform: translateX(-50%) translateY(-3px); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+        }
+
+        @keyframes dataTransmit {
+            0%, 58% { opacity: 0; transform: translateY(20px); }
+            60% { opacity: 1; transform: translateY(0); }
+            70% { opacity: 0.8; transform: translateY(-15px); }
+            80%, 100% { opacity: 0; transform: translateY(-30px); }
         }
 
         @keyframes sensorActive {
@@ -1323,6 +1385,12 @@
                 <div class="train">
                     <div class="train-body">
                         <div class="train-window"></div>
+                        <div class="cabin"></div>
+                        
+                        <!-- Cloud upload indicator -->
+                        <div class="cloud-indicator"></div>
+                        <div class="data-packets"></div>
+                        
                         <!-- Front sensor -->
                         <div class="sensor-unit front">
                             <div class="sensor-lens"></div>
