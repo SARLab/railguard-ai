@@ -234,63 +234,56 @@
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Cloud upload indicator */
-        .cloud-indicator {
+        /* Warning broadcast indicator - radiating pulse */
+        .warning-broadcast {
             position: absolute;
-            top: -35px;
-            right: 20px;
-            width: 40px;
-            height: 25px;
+            top: -25px;
+            right: 30px;
+            width: 30px;
+            height: 30px;
             opacity: 0;
-            animation: cloudAppear 8s linear infinite;
+            animation: warningPulse 8s linear infinite;
             z-index: 15;
         }
 
-        .cloud-indicator::before {
-            content: '☁️';
-            font-size: 28px;
+        .warning-broadcast::before {
+            content: '⚠️';
+            font-size: 20px;
             position: absolute;
             top: 0;
             left: 0;
-            filter: drop-shadow(0 2px 5px rgba(70, 130, 180, 0.5));
+            filter: drop-shadow(0 0 10px var(--primary));
         }
 
-        .cloud-indicator::after {
-            content: '↑';
+        /* Radiating warning waves */
+        .warning-wave {
             position: absolute;
-            top: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 14px;
+            top: 5px;
+            left: 10px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: warningRipple 8s linear infinite;
+        }
+
+        .warning-wave:nth-child(2) { animation-delay: 0.3s; }
+        .warning-wave:nth-child(3) { animation-delay: 0.6s; }
+
+        /* Message rising upward */
+        .broadcast-message {
+            position: absolute;
+            top: -15px;
+            right: 55px;
+            font-size: 10px;
             color: var(--primary);
             font-weight: bold;
-            animation: uploadArrow 8s linear infinite;
+            white-space: nowrap;
+            opacity: 0;
+            animation: messageRise 8s linear infinite;
             text-shadow: 0 0 10px var(--primary);
         }
-
-        /* Data transmission effect */
-        .data-packets {
-            position: absolute;
-            top: -20px;
-            right: 35px;
-            width: 2px;
-            height: 2px;
-            opacity: 0;
-            animation: dataTransmit 8s linear infinite;
-        }
-
-        .data-packets::before,
-        .data-packets::after {
-            content: '●';
-            position: absolute;
-            color: var(--accent);
-            font-size: 6px;
-            opacity: 0;
-            animation: dataTransmit 8s linear infinite;
-        }
-
-        .data-packets::before { animation-delay: 0.15s; left: -8px; }
-        .data-packets::after { animation-delay: 0.3s; left: 8px; }
 
         /* Train wheels - realistic flanged wheels */
         .train-wheel {
@@ -703,6 +696,46 @@
             60% { opacity: 1; transform: translateY(0); }
             70% { opacity: 0.8; transform: translateY(-15px); }
             80%, 100% { opacity: 0; transform: translateY(-30px); }
+        }
+
+        @keyframes warningPulse {
+            0%, 55% { opacity: 0; transform: scale(0.5); }
+            60%, 95% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        @keyframes warningRipple {
+            0%, 58% { 
+                opacity: 0; 
+                transform: scale(0.5); 
+            }
+            60% { 
+                opacity: 1; 
+                transform: scale(1); 
+            }
+            80% { 
+                opacity: 0; 
+                transform: scale(3); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: scale(3); 
+            }
+        }
+
+        @keyframes messageRise {
+            0%, 60% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            65%, 90% { 
+                opacity: 1; 
+                transform: translateY(-5px); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-25px); 
+            }
         }
 
         @keyframes sensorActive {
@@ -1414,9 +1447,13 @@
                         <div class="train-window"></div>
                         <div class="cabin"></div>
                         
-                        <!-- Cloud upload indicator -->
-                        <div class="cloud-indicator"></div>
-                        <div class="data-packets"></div>
+                        <!-- Warning broadcast indicator -->
+                        <div class="warning-broadcast">
+                            <div class="warning-wave"></div>
+                            <div class="warning-wave"></div>
+                            <div class="warning-wave"></div>
+                        </div>
+                        <div class="broadcast-message">ALERT BROADCAST</div>
                         
                         <!-- Front sensor -->
                         <div class="sensor-unit front">
