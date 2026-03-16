@@ -249,48 +249,77 @@
             animation: alarmLight 8s linear infinite;
         }
 
-        /* Train wheels - positioned on front rail */
+        /* Train wheels - realistic flanged wheels */
         .train-wheel {
             position: absolute;
-            bottom: 0;
-            width: 28px;
-            height: 28px;
-            background: radial-gradient(circle at 30% 30%, #555 0%, #222 50%, #111 100%);
+            bottom: -2px;
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle at 35% 35%, #666 0%, #444 20%, #222 60%, #111 100%);
             border-radius: 50%;
-            border: 3px solid #333;
+            border: 2px solid #333;
             box-shadow: 
-                0 3px 5px rgba(0,0,0,0.5),
-                inset 0 -2px 3px rgba(0,0,0,0.5);
+                0 3px 6px rgba(0,0,0,0.6),
+                inset 0 -2px 4px rgba(0,0,0,0.5),
+                0 0 0 3px #222;
             animation: wheelRotate 8s linear infinite;
             z-index: 8;
         }
 
+        /* Wheel flange (the outer rim) */
+        .train-wheel::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 3px solid #555;
+            border-radius: 50%;
+            border-top-color: #777;
+            border-left-color: #777;
+        }
+
+        /* Wheel hub/center */
         .train-wheel::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            background: #666;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle at 30% 30%, #888 0%, #555 50%, #333 100%);
             border-radius: 50%;
-            border: 2px solid #444;
+            border: 2px solid #222;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.2);
         }
 
         /* Back wheels (shadow only, smaller for depth) */
         .train-wheel.back {
-            width: 22px;
-            height: 22px;
-            bottom: 8px;
+            width: 26px;
+            height: 26px;
+            bottom: 6px;
             opacity: 0.6;
             z-index: 6;
         }
 
+        .train-wheel.back::before {
+            border-width: 2px;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+        }
+
+        .train-wheel.back::after {
+            width: 10px;
+            height: 10px;
+        }
+
         .train-wheel.w1 { left: 25px; }
-        .train-wheel.w2 { left: 75px; }
-        .train-wheel.w3 { left: 125px; }
-        .train-wheel.w4 { left: 170px; }
+        .train-wheel.w2 { left: 85px; }
+        .train-wheel.w3 { left: 165px; }
 
         /* 3D perspective shadow */
         .train::after {
@@ -321,7 +350,7 @@
         .sensor-unit.rear {
             position: absolute;
             bottom: -5px;
-            left: 5px;
+            left: 15px;
             width: 35px;
             height: 12px;
             background: linear-gradient(180deg, #444 0%, #222 100%);
@@ -333,11 +362,11 @@
             z-index: 5;
         }
 
-        /* Sensor housing under train - front sensor (right side, under cabin) */
+        /* Sensor housing under train - front sensor (at the very front) */
         .sensor-unit.front {
             position: absolute;
             bottom: -5px;
-            right: 25px;
+            right: 5px;
             width: 35px;
             height: 12px;
             background: linear-gradient(180deg, #444 0%, #222 100%);
@@ -1322,12 +1351,10 @@
                     <div class="train-wheel w1"></div>
                     <div class="train-wheel w2"></div>
                     <div class="train-wheel w3"></div>
-                    <div class="train-wheel w4"></div>
                     <!-- Back wheels for 3D depth effect -->
                     <div class="train-wheel back w1"></div>
                     <div class="train-wheel back w2"></div>
                     <div class="train-wheel back w3"></div>
-                    <div class="train-wheel back w4"></div>
                 </div>
 
                 <div class="anomaly"></div>
