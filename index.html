@@ -276,90 +276,94 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Sensor housing under train - positioned behind the last wheel on the left */
+        /* Sensor housing under train - hanging below the train body */
         .sensor-unit {
             position: absolute;
-            bottom: 8px;
-            left: 8px;
-            width: 40px;
-            height: 14px;
+            bottom: -5px;
+            left: 5px;
+            width: 35px;
+            height: 12px;
             background: linear-gradient(180deg, #444 0%, #222 100%);
-            border-radius: 0 0 6px 6px;
+            border-radius: 0 0 5px 5px;
             border: 1px solid #555;
             display: flex;
             align-items: center;
             justify-content: center;
+            z-index: 5;
         }
 
         .sensor-lens {
-            width: 28px;
-            height: 5px;
+            width: 25px;
+            height: 4px;
             background: radial-gradient(ellipse at center, var(--accent) 0%, #006b5a 100%);
             border-radius: 50%;
             animation: sensorActive 8s linear infinite;
         }
 
-        /* FOV Beam - Downward pointing cone directly from sensor */
+        /* FOV Beam - Downward pointing cone starting exactly from sensor */
         .fov-beam {
             position: absolute;
-            bottom: 0;
+            bottom: -5px;
             left: 0;
             width: 100%;
-            height: 35px;
+            height: 40px;
             pointer-events: none;
-            overflow: hidden;
+            overflow: visible;
+            z-index: 4;
         }
 
         .beam-cone {
             position: absolute;
-            top: -5px;
-            left: 28px;
+            top: 7px;
+            left: 22px;
             width: 0;
             height: 0;
-            border-left: 35px solid transparent;
-            border-right: 35px solid transparent;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
             border-bottom: 35px solid rgba(0, 201, 167, 0.12);
             animation: beamMove 8s linear infinite;
             transform: none;
+            transform-origin: top center;
         }
 
         .beam-cone::before {
             content: '';
             position: absolute;
-            top: 5px;
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 26px solid transparent;
-            border-right: 26px solid transparent;
-            border-bottom: 27px solid rgba(0, 201, 167, 0.15);
+            border-left: 22px solid transparent;
+            border-right: 22px solid transparent;
+            border-bottom: 26px solid rgba(0, 201, 167, 0.15);
         }
 
         .beam-cone::after {
             content: '';
             position: absolute;
-            top: 12px;
+            top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 18px solid transparent;
-            border-right: 18px solid transparent;
-            border-bottom: 20px solid rgba(0, 201, 167, 0.18);
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 18px solid rgba(0, 201, 167, 0.18);
         }
 
         /* Flowing waves inside beam */
         .beam-wave {
             position: absolute;
-            top: 0;
-            left: 28px;
+            top: 7px;
+            left: 22px;
             height: 2px;
             background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
             border-radius: 1px;
             opacity: 0;
             animation: beamWave 8s linear infinite;
             box-shadow: 0 0 6px var(--accent);
+            transform-origin: left center;
         }
 
         .beam-wave:nth-child(2) { animation-delay: 0.4s; }
@@ -495,21 +499,21 @@
         }
 
         @keyframes beamMove {
-            0% { left: -235px; opacity: 0; }
+            0% { left: -240px; opacity: 0; }
             5% { opacity: 1; }
-            60% { left: calc(100% - 390px); opacity: 1; }
-            65% { left: calc(100% - 370px); opacity: 1; border-bottom-color: rgba(255, 107, 53, 0.2); }
-            80% { left: calc(100% - 310px); opacity: 0.5; }
-            100% { left: calc(100% - 250px); opacity: 0; }
+            60% { left: calc(100% - 400px); opacity: 1; }
+            65% { left: calc(100% - 380px); opacity: 1; border-bottom-color: rgba(255, 107, 53, 0.2); }
+            80% { left: calc(100% - 320px); opacity: 0.5; }
+            100% { left: calc(100% - 260px); opacity: 0; }
         }
 
         @keyframes beamWave {
-            0% { left: -215px; width: 18px; opacity: 0; }
+            0% { left: -228px; width: 15px; opacity: 0; }
             10% { opacity: 0.8; }
-            60% { left: calc(100% - 365px); width: 50px; opacity: 0.8; }
-            65% { left: calc(100% - 345px); width: 65px; opacity: 1; background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%); }
-            80% { left: calc(100% - 315px); width: 35px; opacity: 0.4; }
-            100% { left: calc(100% - 250px); width: 18px; opacity: 0; }
+            60% { left: calc(100% - 388px); width: 45px; opacity: 0.8; }
+            65% { left: calc(100% - 368px); width: 58px; opacity: 1; background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%); }
+            80% { left: calc(100% - 338px); width: 30px; opacity: 0.4; }
+            100% { left: calc(100% - 268px); width: 15px; opacity: 0; }
         }
 
         @keyframes anomalyDetect {
