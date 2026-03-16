@@ -154,48 +154,62 @@
 
         .track {
             position: absolute;
-            bottom: 60px;
+            bottom: 55px;
             left: 0;
             width: 100%;
-            height: 40px;
+            height: 50px;
             background: repeating-linear-gradient(90deg, #2a2a2a 0px, #2a2a2a 40px, #1a1a1a 40px, #1a1a1a 80px);
+            perspective: 200px;
         }
 
+        /* Front rail (closer to viewer) */
         .track::before {
             content: '';
             position: absolute;
-            top: 50%;
+            top: 28px;
             left: 0;
             width: 100%;
-            height: 6px;
-            background: #666;
-            transform: translateY(-50%);
-            box-shadow: 0 -12px 0 -2px #444, 0 12px 0 -2px #444;
+            height: 8px;
+            background: linear-gradient(180deg, #888 0%, #666 50%, #444 100%);
+            box-shadow: 
+                0 2px 4px rgba(0,0,0,0.5),
+                inset 0 1px 1px rgba(255,255,255,0.3);
         }
 
+        /* Back rail (further away) */
         .track::after {
             content: '';
             position: absolute;
-            top: 50%;
+            top: 8px;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 6px;
+            background: linear-gradient(180deg, #555 0%, #333 100%);
+            opacity: 0.7;
+        }
+
+        /* Sleepers */
+        .sleepers {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            height: 60px;
             background: repeating-linear-gradient(90deg, 
-                transparent 0px, transparent 38px, 
-                #333 38px, #333 42px, 
-                transparent 42px, transparent 78px,
-                #333 78px, #333 82px
+                transparent 0px, transparent 35px, 
+                #3a3a3a 35px, #3a3a3a 45px, 
+                transparent 45px, transparent 75px
             );
-            transform: translateY(-50%);
         }
 
         .train {
             position: absolute;
-            bottom: 88px;
+            bottom: 82px;
             left: -220px;
             width: 200px;
             height: 95px;
             animation: trainMove 8s linear infinite;
+            z-index: 10;
         }
 
         .train-body {
@@ -236,16 +250,20 @@
             animation: alarmLight 8s linear infinite;
         }
 
-        /* Train wheels */
+        /* Train wheels - positioned on front rail */
         .train-wheel {
             position: absolute;
             bottom: 0;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             background: radial-gradient(circle at 30% 30%, #555 0%, #222 50%, #111 100%);
             border-radius: 50%;
             border: 3px solid #333;
+            box-shadow: 
+                0 3px 5px rgba(0,0,0,0.5),
+                inset 0 -2px 3px rgba(0,0,0,0.5);
             animation: wheelRotate 8s linear infinite;
+            z-index: 8;
         }
 
         .train-wheel::after {
@@ -254,16 +272,40 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background: #666;
             border-radius: 50%;
+            border: 2px solid #444;
         }
 
-        .train-wheel.w1 { left: 30px; }
-        .train-wheel.w2 { left: 80px; }
-        .train-wheel.w3 { left: 130px; }
+        /* Back wheels (shadow only, smaller for depth) */
+        .train-wheel.back {
+            width: 22px;
+            height: 22px;
+            bottom: 8px;
+            opacity: 0.6;
+            z-index: 6;
+        }
+
+        .train-wheel.w1 { left: 25px; }
+        .train-wheel.w2 { left: 75px; }
+        .train-wheel.w3 { left: 125px; }
         .train-wheel.w4 { left: 170px; }
+
+        /* 3D perspective shadow */
+        .train::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10px;
+            width: 180px;
+            height: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            filter: blur(8px);
+            z-index: 7;
+        }
 
         .train-window {
             position: absolute;
@@ -382,6 +424,7 @@
             border-radius: 2px;
             border: 1px solid #A0522D;
             animation: anomalyDetect 8s linear infinite;
+            z-index: 9;
         }
 
         .anomaly::before {
@@ -398,7 +441,7 @@
 
         .anomaly-label {
             position: absolute;
-            bottom: 75px;
+            bottom: 70px;
             right: 85px;
             background: var(--primary);
             color: white;
@@ -1172,6 +1215,7 @@
                 </div>
                 
                 <div class="track"></div>
+                <div class="sleepers"></div>
                 
                 <div class="train">
                     <div class="train-body">
@@ -1192,6 +1236,11 @@
                     <div class="train-wheel w2"></div>
                     <div class="train-wheel w3"></div>
                     <div class="train-wheel w4"></div>
+                    <!-- Back wheels for 3D depth effect -->
+                    <div class="train-wheel back w1"></div>
+                    <div class="train-wheel back w2"></div>
+                    <div class="train-wheel back w3"></div>
+                    <div class="train-wheel back w4"></div>
                 </div>
 
                 <div class="anomaly"></div>
@@ -1523,12 +1572,12 @@
 
         // Animate KM counter
         const kmElement = document.querySelector('.km-counter');
-        let km = 142.0;
+        let km = 142.000;
         setInterval(() => {
-            km += 0.1;
-            if (km > 143.0) km = 142.0;
-            kmElement.textContent = `> SCANNING: KM ${km.toFixed(1)}`;
-        }, 800);
+            km += 0.003;
+            if (km > 143.000) km = 142.000;
+            kmElement.textContent = `> SCANNING: KM ${km.toFixed(3)}`;
+        }, 50);
     </script>
 </body>
 </html>
