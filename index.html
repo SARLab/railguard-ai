@@ -416,7 +416,7 @@
         .anomaly {
             position: absolute;
             bottom: 47px;
-            right: 135px;
+            right: 280px;
             width: 35px;
             height: 10px;
             background: 
@@ -472,7 +472,7 @@
         .anomaly-label {
             position: absolute;
             bottom: 70px;
-            right: 85px;
+            right: 230px;
             background: var(--primary);
             color: white;
             padding: 5px 10px;
@@ -511,6 +511,7 @@
         .data-line.status-alarm {
             color: var(--primary);
             font-weight: bold;
+            animation: alarmText 8s linear infinite;
         }
 
         .km-counter {
@@ -526,10 +527,16 @@
             animation: scanProgress 8s linear infinite;
         }
 
+        @keyframes alarmText {
+            0%, 58% { opacity: 0; }
+            60%, 95% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
         @keyframes scanProgress {
             0% { width: 0%; background: var(--accent); }
-            60% { width: 75%; background: var(--accent); }
-            65% { width: 80%; background: var(--primary); }
+            55% { width: 65%; background: var(--accent); }
+            60% { width: 70%; background: var(--primary); }
             80% { width: 100%; background: var(--primary); }
             100% { width: 100%; }
         }
@@ -541,16 +548,16 @@
             30% { content: "> SCANNING: KM 142.3"; }
             40% { content: "> SCANNING: KM 142.4"; }
             50% { content: "> SCANNING: KM 142.5"; }
-            60% { content: "> SCANNING: KM 142.6"; }
-            70% { content: "> SCANNING: KM 142.7"; }
-            80% { content: "> SCANNING: KM 142.8"; }
-            90% { content: "> SCANNING: KM 142.9"; }
+            55% { content: "> SCANNING: KM 142.6"; }
+            60% { content: "> SCANNING: KM 142.7"; }
+            70% { content: "> SCANNING: KM 142.8"; }
+            80% { content: "> SCANNING: KM 142.9"; }
             100% { content: "> SCANNING: KM 143.0"; }
         }
 
         @keyframes trainMove {
             0% { left: -220px; }
-            60% { left: calc(100% - 360px); }
+            55% { left: calc(100% - 515px); }
             100% { left: calc(100% + 50px); }
         }
 
@@ -560,14 +567,14 @@
         }
 
         @keyframes alarmLight {
-            0%, 60% { opacity: 0; }
-            65%, 95% { opacity: 1; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
+            0%, 58% { opacity: 0; }
+            60%, 95% { opacity: 1; box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.4); }
             100% { opacity: 0; }
         }
 
         @keyframes sensorActive {
-            0%, 60% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
-            65%, 80% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
+            0%, 55% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+            60%, 80% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
             100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
         }
 
@@ -606,15 +613,15 @@
         }
 
         @keyframes railAnomaly {
-            0%, 58% {
+            0%, 55% {
                 box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
                 filter: brightness(0.9);
             }
-            60% {
+            58% {
                 box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
                 filter: brightness(1.3);
             }
-            65% {
+            60% {
                 box-shadow: 0 0 25px var(--primary), 0 0 50px var(--primary), 0 0 75px var(--primary);
                 filter: brightness(1.8);
             }
@@ -629,15 +636,15 @@
         }
 
         @keyframes crackGlow {
-            0%, 58% { opacity: 0; }
+            0%, 55% { opacity: 0; }
             60%, 80% { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes labelPop {
-            0%, 60% { opacity: 0; transform: translateY(10px) scale(0.8); }
-            65% { opacity: 1; transform: translateY(0) scale(1.1); }
-            70% { transform: translateY(0) scale(1); }
+            0%, 58% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            60% { opacity: 1; transform: translateY(0) scale(1.1); }
+            65% { transform: translateY(0) scale(1); }
             85%, 95% { opacity: 1; }
             100% { opacity: 0; transform: translateY(-10px); }
         }
