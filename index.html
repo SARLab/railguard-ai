@@ -276,16 +276,15 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Sensor housing under train */
+        /* Sensor housing under train - positioned at the back (left side) */
         .sensor-unit {
             position: absolute;
-            bottom: 22px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 20px;
+            bottom: 18px;
+            left: 35px;
+            width: 50px;
+            height: 18px;
             background: linear-gradient(180deg, #444 0%, #222 100%);
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 8px 8px;
             border: 1px solid #555;
             display: flex;
             align-items: center;
@@ -293,14 +292,14 @@
         }
 
         .sensor-lens {
-            width: 40px;
-            height: 10px;
+            width: 35px;
+            height: 8px;
             background: radial-gradient(ellipse at center, var(--accent) 0%, #006b5a 100%);
             border-radius: 50%;
             animation: sensorActive 8s linear infinite;
         }
 
-        /* FOV Beam - Downward pointing cone */
+        /* FOV Beam - Downward pointing cone from sensor position */
         .fov-beam {
             position: absolute;
             bottom: 0;
@@ -314,47 +313,47 @@
         .beam-cone {
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 60px;
             width: 0;
             height: 0;
-            border-left: 60px solid transparent;
-            border-right: 60px solid transparent;
-            border-bottom: 80px solid rgba(0, 201, 167, 0.12);
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 70px solid rgba(0, 201, 167, 0.12);
             animation: beamMove 8s linear infinite;
+            transform: none;
         }
 
         .beam-cone::before {
             content: '';
             position: absolute;
-            top: 20px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 45px solid transparent;
-            border-right: 45px solid transparent;
-            border-bottom: 60px solid rgba(0, 201, 167, 0.15);
+            border-left: 38px solid transparent;
+            border-right: 38px solid transparent;
+            border-bottom: 55px solid rgba(0, 201, 167, 0.15);
         }
 
         .beam-cone::after {
             content: '';
             position: absolute;
-            top: 35px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 30px solid transparent;
-            border-right: 30px solid transparent;
-            border-bottom: 45px solid rgba(0, 201, 167, 0.18);
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 40px solid rgba(0, 201, 167, 0.18);
         }
 
         /* Flowing waves inside beam */
         .beam-wave {
             position: absolute;
             top: 5px;
-            left: 50%;
+            left: 60px;
             height: 2px;
             background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
             border-radius: 1px;
@@ -501,16 +500,16 @@
             60% { left: calc(100% - 360px); opacity: 1; }
             65% { left: calc(100% - 340px); opacity: 1; border-bottom-color: rgba(255, 107, 53, 0.2); }
             80% { left: calc(100% - 280px); opacity: 0.5; }
-            100% { left: calc(100% - 200px); opacity: 0; }
+            100% { left: calc(100% - 220px); opacity: 0; }
         }
 
         @keyframes beamWave {
-            0% { left: -100px; width: 30px; opacity: 0; }
+            0% { left: -160px; width: 25px; opacity: 0; }
             10% { opacity: 0.8; }
-            60% { left: calc(100% - 300px); width: 80px; opacity: 0.8; }
-            65% { left: calc(100% - 280px); width: 100px; opacity: 1; background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%); }
-            80% { left: calc(100% - 250px); width: 60px; opacity: 0.4; }
-            100% { left: calc(100% - 200px); width: 30px; opacity: 0; }
+            60% { left: calc(100% - 320px); width: 70px; opacity: 0.8; }
+            65% { left: calc(100% - 300px); width: 85px; opacity: 1; background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%); }
+            80% { left: calc(100% - 270px); width: 50px; opacity: 0.4; }
+            100% { left: calc(100% - 220px); width: 25px; opacity: 0; }
         }
 
         @keyframes anomalyDetect {
