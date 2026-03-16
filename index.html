@@ -317,11 +317,27 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Sensor housing under train - hanging below the train body */
-        .sensor-unit {
+        /* Sensor housing under train - rear sensor (left side) */
+        .sensor-unit.rear {
             position: absolute;
             bottom: -5px;
             left: 5px;
+            width: 35px;
+            height: 12px;
+            background: linear-gradient(180deg, #444 0%, #222 100%);
+            border-radius: 0 0 5px 5px;
+            border: 1px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        /* Sensor housing under train - front sensor (right side, under cabin) */
+        .sensor-unit.front {
+            position: absolute;
+            bottom: -5px;
+            right: 25px;
             width: 35px;
             height: 12px;
             background: linear-gradient(180deg, #444 0%, #222 100%);
@@ -1278,7 +1294,20 @@
                 <div class="train">
                     <div class="train-body">
                         <div class="train-window"></div>
-                        <div class="sensor-unit">
+                        <!-- Front sensor -->
+                        <div class="sensor-unit front">
+                            <div class="sensor-lens"></div>
+                            <div class="fov-beam">
+                                <div class="beam-cone"></div>
+                                <div class="beam-wave"></div>
+                                <div class="beam-wave"></div>
+                                <div class="beam-wave"></div>
+                                <div class="beam-wave"></div>
+                                <div class="beam-wave"></div>
+                            </div>
+                        </div>
+                        <!-- Rear sensor -->
+                        <div class="sensor-unit rear">
                             <div class="sensor-lens"></div>
                             <div class="fov-beam">
                                 <div class="beam-cone"></div>
