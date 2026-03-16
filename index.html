@@ -258,18 +258,20 @@
         /* Radiating warning waves */
         .warning-wave {
             position: absolute;
-            top: 5px;
-            left: 10px;
-            width: 10px;
-            height: 10px;
-            border: 2px solid var(--primary);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--primary);
             border-radius: 50%;
             opacity: 0;
             animation: warningRipple 8s linear infinite;
+            box-shadow: 0 0 10px var(--primary), inset 0 0 10px var(--primary);
         }
 
-        .warning-wave:nth-child(2) { animation-delay: 0.3s; }
-        .warning-wave:nth-child(3) { animation-delay: 0.6s; }
+        .warning-wave:nth-child(2) { animation-delay: 0.4s; }
+        .warning-wave:nth-child(3) { animation-delay: 0.8s; }
 
         /* Message rising upward */
         .broadcast-message {
@@ -707,19 +709,23 @@
         @keyframes warningRipple {
             0%, 58% { 
                 opacity: 0; 
-                transform: scale(0.5); 
+                transform: translate(-50%, -50%) scale(0.3); 
+                border-width: 4px;
             }
             60% { 
                 opacity: 1; 
-                transform: scale(1); 
+                transform: translate(-50%, -50%) scale(0.5); 
+                border-width: 3px;
             }
-            80% { 
-                opacity: 0; 
-                transform: scale(3); 
+            75% { 
+                opacity: 0.6; 
+                transform: translate(-50%, -50%) scale(2); 
+                border-width: 2px;
             }
-            100% { 
+            90%, 100% { 
                 opacity: 0; 
-                transform: scale(3); 
+                transform: translate(-50%, -50%) scale(4); 
+                border-width: 1px;
             }
         }
 
