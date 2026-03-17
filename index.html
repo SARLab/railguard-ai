@@ -670,36 +670,37 @@
             100% { transform: translateX(350%); }
         }
 
-        /* Mobile-optimized animations - detection happens at 72% instead of 27% due to narrower viewport */
+        /* Mobile-optimized animations - properly synchronized for ~375px mobile viewport */
+        /* Anomaly at 48% of container (~180px), train 160px wide, detection at ~170% translateX */
         @keyframes trainMoveMobile {
             0% { transform: translateX(-60%); }
-            72% { transform: translateX(48%); }
-            100% { transform: translateX(200%); }
+            45% { transform: translateX(170%); }
+            100% { transform: translateX(350%); }
         }
 
         @keyframes warningPulseMobile {
-            0%, 71.9% { opacity: 0; transform: scale(0.5); }
-            72%, 95% { opacity: 1; transform: scale(1); }
+            0%, 44.9% { opacity: 0; transform: scale(0.5); }
+            45%, 95% { opacity: 1; transform: scale(1); }
             100% { opacity: 0; transform: scale(0.5); }
         }
 
         @keyframes warningRippleMobile {
-            0%, 71.9% { 
+            0%, 44.9% { 
                 opacity: 0; 
                 transform: translate(-50%, -50%) scale(0.3); 
                 border-width: 4px;
             }
-            85% { 
+            55% { 
                 opacity: 1; 
                 transform: translate(-50%, -50%) scale(0.5); 
                 border-width: 3px;
             }
-            95% { 
+            75% { 
                 opacity: 0.5; 
                 transform: translate(-50%, -50%) scale(2.5); 
                 border-width: 2px;
             }
-            100% { 
+            95%, 100% { 
                 opacity: 0; 
                 transform: translate(-50%, -50%) scale(5); 
                 border-width: 1px;
@@ -707,11 +708,11 @@
         }
 
         @keyframes messageRiseMobile {
-            0%, 71.9% { 
+            0%, 44.9% { 
                 opacity: 0; 
                 transform: translateY(20px); 
             }
-            72%, 95% { 
+            45%, 90% { 
                 opacity: 1; 
                 transform: translateY(-5px); 
             }
@@ -722,25 +723,25 @@
         }
 
         @keyframes sensorActiveMobile {
-            0%, 71.9% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
-            85%, 95% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
+            0%, 44.9% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+            55%, 85% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
             100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
         }
 
         @keyframes railAnomalyMobile {
-            0%, 71.9% {
+            0%, 44.9% {
                 box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
                 filter: brightness(0.9);
             }
-            85% {
+            55% {
                 box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
                 filter: brightness(1.3);
             }
-            90% {
+            60% {
                 box-shadow: 0 0 25px var(--primary), 0 0 50px var(--primary), 0 0 75px var(--primary);
                 filter: brightness(1.8);
             }
-            95% {
+            75% {
                 box-shadow: 0 0 35px var(--primary), 0 0 70px var(--primary);
                 filter: brightness(2);
             }
@@ -751,30 +752,37 @@
         }
 
         @keyframes crackGlowMobile {
-            0%, 71.9% { opacity: 0; }
-            85%, 98% { opacity: 1; }
+            0%, 44.9% { opacity: 0; }
+            55%, 90% { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes commTextMobile {
-            0%, 71.9% { opacity: 0; }
-            72% { opacity: 1; }
+            0%, 44.9% { opacity: 0; }
+            45% { opacity: 1; }
             95%, 100% { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes alertTextMobile {
-            0%, 72.9% { opacity: 0; }
-            90% { opacity: 1; }
+            0%, 45.9% { opacity: 0; }
+            65% { opacity: 1; }
             95%, 100% { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes scanProgressMobile {
             0% { width: 0%; background: var(--accent); }
-            70% { width: 70%; background: var(--accent); }
-            72% { width: 72%; background: var(--primary); }
+            44% { width: 44%; background: var(--accent); }
+            45% { width: 45%; background: var(--primary); }
             100% { width: 100%; background: var(--primary); }
+        }
+
+        /* Small phone animation - 120px train, ~320px container */
+        @keyframes trainMoveMobileSmall {
+            0% { transform: translateX(-60%); }
+            45% { transform: translateX(185%); }
+            100% { transform: translateX(350%); }
         }
 
         @keyframes wheelRotate {
@@ -1516,44 +1524,165 @@
                 transform: rotate(90deg);
             }
 
-            /* Mobile train demo adjustments */
+            /* Mobile train demo - resize elements without using transform scale */
             .train-demo {
-                height: 220px;
+                height: 200px;
             }
 
+            /* Resize train proportionally for mobile */
             .train {
+                width: 160px;
+                height: 63px;
+                bottom: 65px;
                 animation-name: trainMoveMobile;
-                transform: scale(0.75);
-                transform-origin: bottom center;
+            }
+
+            .train-body {
+                height: 47px;
+            }
+
+            .cabin {
+                width: 47px;
+                height: 27px;
+                right: 7px;
+                top: 3px;
+            }
+
+            .train-window {
+                width: 27px;
+                height: 17px;
+                left: 10px;
+                top: 8px;
             }
 
             .train-wheel {
-                animation-name: wheelRotate;
+                width: 21px;
+                height: 21px;
+                bottom: -1px;
+            }
+
+            .train-wheel::after {
+                width: 8px;
+                height: 8px;
+            }
+
+            .train-wheel.back {
+                width: 17px;
+                height: 17px;
+                bottom: 4px;
+            }
+
+            .train-wheel.w1 { left: 37px; }
+            .train-wheel.w2 { left: 69px; }
+            .train-wheel.w3 { left: 102px; }
+
+            .sensor-unit.front,
+            .sensor-unit.rear {
+                width: 23px;
+                height: 8px;
+            }
+
+            .sensor-lens {
+                width: 17px;
+                height: 3px;
+                animation-name: sensorActiveMobile;
+            }
+
+            .fov-beam {
+                width: 47px;
+                height: 23px;
+            }
+
+            .beam-cone {
+                border-left-width: 20px;
+                border-right-width: 20px;
+                border-bottom-width: 23px;
+            }
+
+            .beam-cone::before {
+                border-left-width: 15px;
+                border-right-width: 15px;
+                border-bottom-width: 17px;
+            }
+
+            .beam-cone::after {
+                border-left-width: 10px;
+                border-right-width: 10px;
+                border-bottom-width: 12px;
             }
 
             .warning-broadcast {
+                width: 20px;
+                height: 20px;
+                top: -17px;
+                right: 20px;
                 animation-name: warningPulseMobile;
             }
 
+            .warning-broadcast::before {
+                font-size: 14px;
+            }
+
             .warning-wave {
+                width: 14px;
+                height: 14px;
                 animation-name: warningRippleMobile;
             }
 
             .broadcast-message {
+                font-size: 7px;
+                top: -10px;
+                right: 37px;
                 animation-name: messageRiseMobile;
             }
 
-            .sensor-lens {
-                animation-name: sensorActiveMobile;
-            }
-
             .anomaly {
+                width: 23px;
+                height: 7px;
+                bottom: 48px;
                 animation-name: railAnomalyMobile;
             }
 
-            .anomaly::before,
-            .anomaly::after {
+            .anomaly::before {
+                font-size: 8px;
+                top: -10px;
                 animation-name: crackGlowMobile;
+            }
+
+            .anomaly::after {
+                top: -12px;
+                left: 3px;
+                width: 1px;
+                height: 12px;
+                box-shadow: 13px 4px 0 -1px var(--primary), 17px -1px 0 -1px var(--primary);
+                animation-name: crackGlowMobile;
+            }
+
+            .track {
+                bottom: 45px;
+                height: 40px;
+            }
+
+            .track::before {
+                top: 22px;
+                height: 6px;
+            }
+
+            .track::after {
+                top: 6px;
+                height: 5px;
+            }
+
+            .sleepers {
+                bottom: 40px;
+                height: 50px;
+            }
+
+            .data-stream {
+                font-size: 0.6rem;
+                padding: 8px 10px;
+                top: 10px;
+                left: 10px;
             }
 
             .scan-progress {
@@ -1569,27 +1698,119 @@
             }
         }
 
-        /* Small phone adjustments */
+        /* Small phone adjustments - 120px train needs different timing */
         @media (max-width: 480px) {
             .train-demo {
-                height: 180px;
+                height: 160px;
             }
 
             .train {
-                transform: scale(0.6);
+                width: 120px;
+                height: 47px;
+                bottom: 52px;
+                animation-name: trainMoveMobileSmall;
+            }
+
+            .train-body {
+                height: 35px;
+            }
+
+            .cabin {
+                width: 35px;
+                height: 20px;
+                right: 5px;
+            }
+
+            .train-window {
+                width: 20px;
+                height: 12px;
+                left: 8px;
+                top: 6px;
+            }
+
+            .train-wheel {
+                width: 16px;
+                height: 16px;
+            }
+
+            .train-wheel::after {
+                width: 6px;
+                height: 6px;
+            }
+
+            .train-wheel.back {
+                width: 13px;
+                height: 13px;
+                bottom: 3px;
+            }
+
+            .train-wheel.w1 { left: 28px; }
+            .train-wheel.w2 { left: 52px; }
+            .train-wheel.w3 { left: 76px; }
+
+            .sensor-unit.front,
+            .sensor-unit.rear {
+                width: 17px;
+                height: 6px;
+            }
+
+            .sensor-lens {
+                width: 13px;
+                height: 2px;
+            }
+
+            .fov-beam {
+                width: 35px;
+                height: 17px;
+            }
+
+            .beam-cone {
+                border-left-width: 15px;
+                border-right-width: 15px;
+                border-bottom-width: 17px;
+            }
+
+            .beam-cone::before {
+                border-left-width: 11px;
+                border-right-width: 11px;
+                border-bottom-width: 13px;
+            }
+
+            .beam-cone::after {
+                border-left-width: 8px;
+                border-right-width: 8px;
+                border-bottom-width: 9px;
+            }
+
+            .anomaly {
+                width: 18px;
+                height: 5px;
+                bottom: 38px;
+            }
+
+            .track {
+                bottom: 35px;
+                height: 32px;
+            }
+
+            .track::before {
+                top: 18px;
+                height: 5px;
+            }
+
+            .track::after {
+                top: 5px;
+                height: 4px;
+            }
+
+            .sleepers {
+                bottom: 32px;
+                height: 40px;
             }
 
             .data-stream {
-                font-size: 0.6rem;
-                padding: 8px 10px;
-                top: 10px;
-                left: 10px;
-            }
-
-            .anomaly-label {
-                right: 150px;
-                font-size: 0.65rem;
-                padding: 4px 8px;
+                font-size: 0.55rem;
+                padding: 6px 8px;
             }
         }
     </style>
