@@ -670,6 +670,113 @@
             100% { transform: translateX(350%); }
         }
 
+        /* Mobile-optimized animations - detection happens at 72% instead of 27% due to narrower viewport */
+        @keyframes trainMoveMobile {
+            0% { transform: translateX(-60%); }
+            72% { transform: translateX(48%); }
+            100% { transform: translateX(200%); }
+        }
+
+        @keyframes warningPulseMobile {
+            0%, 71.9% { opacity: 0; transform: scale(0.5); }
+            72%, 95% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        @keyframes warningRippleMobile {
+            0%, 71.9% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.3); 
+                border-width: 4px;
+            }
+            85% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(0.5); 
+                border-width: 3px;
+            }
+            95% { 
+                opacity: 0.5; 
+                transform: translate(-50%, -50%) scale(2.5); 
+                border-width: 2px;
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(5); 
+                border-width: 1px;
+            }
+        }
+
+        @keyframes messageRiseMobile {
+            0%, 71.9% { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            72%, 95% { 
+                opacity: 1; 
+                transform: translateY(-5px); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translateY(-30px); 
+            }
+        }
+
+        @keyframes sensorActiveMobile {
+            0%, 71.9% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+            85%, 95% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
+            100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+        }
+
+        @keyframes railAnomalyMobile {
+            0%, 71.9% {
+                box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
+                filter: brightness(0.9);
+            }
+            85% {
+                box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+                filter: brightness(1.3);
+            }
+            90% {
+                box-shadow: 0 0 25px var(--primary), 0 0 50px var(--primary), 0 0 75px var(--primary);
+                filter: brightness(1.8);
+            }
+            95% {
+                box-shadow: 0 0 35px var(--primary), 0 0 70px var(--primary);
+                filter: brightness(2);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
+                filter: brightness(0.9);
+            }
+        }
+
+        @keyframes crackGlowMobile {
+            0%, 71.9% { opacity: 0; }
+            85%, 98% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes commTextMobile {
+            0%, 71.9% { opacity: 0; }
+            72% { opacity: 1; }
+            95%, 100% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes alertTextMobile {
+            0%, 72.9% { opacity: 0; }
+            90% { opacity: 1; }
+            95%, 100% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes scanProgressMobile {
+            0% { width: 0%; background: var(--accent); }
+            70% { width: 70%; background: var(--accent); }
+            72% { width: 72%; background: var(--primary); }
+            100% { width: 100%; background: var(--primary); }
+        }
+
         @keyframes wheelRotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -1407,6 +1514,82 @@
 
             .process-arrow {
                 transform: rotate(90deg);
+            }
+
+            /* Mobile train demo adjustments */
+            .train-demo {
+                height: 220px;
+            }
+
+            .train {
+                animation-name: trainMoveMobile;
+                transform: scale(0.75);
+                transform-origin: bottom center;
+            }
+
+            .train-wheel {
+                animation-name: wheelRotate;
+            }
+
+            .warning-broadcast {
+                animation-name: warningPulseMobile;
+            }
+
+            .warning-wave {
+                animation-name: warningRippleMobile;
+            }
+
+            .broadcast-message {
+                animation-name: messageRiseMobile;
+            }
+
+            .sensor-lens {
+                animation-name: sensorActiveMobile;
+            }
+
+            .anomaly {
+                animation-name: railAnomalyMobile;
+            }
+
+            .anomaly::before,
+            .anomaly::after {
+                animation-name: crackGlowMobile;
+            }
+
+            .scan-progress {
+                animation-name: scanProgressMobile;
+            }
+
+            .data-line.status-comm {
+                animation-name: commTextMobile;
+            }
+
+            .data-line.status-alert {
+                animation-name: alertTextMobile;
+            }
+        }
+
+        /* Small phone adjustments */
+        @media (max-width: 480px) {
+            .train-demo {
+                height: 180px;
+            }
+
+            .train {
+                transform: scale(0.6);
+            }
+
+            .data-stream {
+                font-size: 0.6rem;
+                padding: 8px 10px;
+                top: 10px;
+                left: 10px;
+            }
+
+            .anomaly-label {
+                right: 150px;
+                font-size: 0.65rem;
+                padding: 4px 8px;
             }
         }
     </style>
