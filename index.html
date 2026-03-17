@@ -671,21 +671,21 @@
         }
 
         /* Mobile-optimized animations - properly synchronized for ~375px mobile viewport */
-        /* Anomaly at 48% of container (~180px), train 160px wide, detection at ~170% translateX */
+        /* Train 160px wide, anomaly at 180px, need translateX(110%) to position train correctly */
         @keyframes trainMoveMobile {
             0% { transform: translateX(-60%); }
-            45% { transform: translateX(170%); }
+            43% { transform: translateX(110%); }
             100% { transform: translateX(350%); }
         }
 
         @keyframes warningPulseMobile {
-            0%, 44.9% { opacity: 0; transform: scale(0.5); }
-            45%, 95% { opacity: 1; transform: scale(1); }
+            0%, 42.9% { opacity: 0; transform: scale(0.5); }
+            43%, 95% { opacity: 1; transform: scale(1); }
             100% { opacity: 0; transform: scale(0.5); }
         }
 
         @keyframes warningRippleMobile {
-            0%, 44.9% { 
+            0%, 42.9% { 
                 opacity: 0; 
                 transform: translate(-50%, -50%) scale(0.3); 
                 border-width: 4px;
@@ -708,11 +708,11 @@
         }
 
         @keyframes messageRiseMobile {
-            0%, 44.9% { 
+            0%, 42.9% { 
                 opacity: 0; 
                 transform: translateY(20px); 
             }
-            45%, 90% { 
+            43%, 90% { 
                 opacity: 1; 
                 transform: translateY(-5px); 
             }
@@ -723,13 +723,13 @@
         }
 
         @keyframes sensorActiveMobile {
-            0%, 44.9% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
+            0%, 42.9% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
             55%, 85% { box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary); background: radial-gradient(ellipse at center, var(--primary) 0%, #8B0000 100%); }
             100% { box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent); }
         }
 
         @keyframes railAnomalyMobile {
-            0%, 44.9% {
+            0%, 42.9% {
                 box-shadow: 0 0 5px rgba(255, 107, 53, 0.3);
                 filter: brightness(0.9);
             }
@@ -752,20 +752,20 @@
         }
 
         @keyframes crackGlowMobile {
-            0%, 44.9% { opacity: 0; }
+            0%, 42.9% { opacity: 0; }
             55%, 90% { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes commTextMobile {
-            0%, 44.9% { opacity: 0; }
-            45% { opacity: 1; }
+            0%, 42.9% { opacity: 0; }
+            43% { opacity: 1; }
             95%, 100% { opacity: 1; }
             100% { opacity: 0; }
         }
 
         @keyframes alertTextMobile {
-            0%, 45.9% { opacity: 0; }
+            0%, 43.9% { opacity: 0; }
             65% { opacity: 1; }
             95%, 100% { opacity: 1; }
             100% { opacity: 0; }
@@ -773,15 +773,16 @@
 
         @keyframes scanProgressMobile {
             0% { width: 0%; background: var(--accent); }
-            44% { width: 44%; background: var(--accent); }
-            45% { width: 45%; background: var(--primary); }
+            42% { width: 42%; background: var(--accent); }
+            43% { width: 43%; background: var(--primary); }
             100% { width: 100%; background: var(--primary); }
         }
 
-        /* Small phone animation - 120px train, ~320px container */
+        /* Small phone animation - 120px train, ~320px container, anomaly at ~154px */
+        /* translateX(128%) = 154px for 120px train */
         @keyframes trainMoveMobileSmall {
             0% { transform: translateX(-60%); }
-            45% { transform: translateX(185%); }
+            43% { transform: translateX(128%); }
             100% { transform: translateX(350%); }
         }
 
